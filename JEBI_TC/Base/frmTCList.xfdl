@@ -135,14 +135,14 @@
         </Grid>
         <Button id="btnNew" taborder="8" text="NEW" left="10" top="11" width="40" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnNew_onclick" tooltiptext="모든 TC 초기화"/>
         <Button id="btnAdd" taborder="2" text="+" left="btnNew:10" top="10" width="40" height="40" font="normal 700 20pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnAdd_onclick" tooltiptext="TC Item 추가"/>
-        <Button id="btnDel" taborder="3" text="-" left="btnAdd:10" top="10" width="40" height="40" font="normal 700 20pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnDel_onclick" tooltiptext="TC Item 삭제 (grid 현재 position 또는 check 된 모든 item)"/>
+        <Button id="btnDel" taborder="3" text="-" left="btnAdd:10" top="10" width="40" height="40" font="normal 700 20pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnDel_onclick" tooltiptext="TC Item 삭제 (grid 현재 position 또는 check 된 모든 item)" hotkey="CTRL+DELETE"/>
         <Static id="stTarget" taborder="4" left="btnDel:10" top="10" width="80" height="39" text="Element :" font="normal 700 12pt/normal &quot;Arial&quot;"/>
         <Combo id="cmbList" taborder="5" text="Combo00" left="stTarget:6" top="10" width="500" height="40" innerdataset="dsDomList" codecolumn="nodeName" datacolumn="nodeId" type="filterlike"/>
         <Button id="btnApply" taborder="6" text="반영" left="cmbList:10" top="10" width="60" height="40" onclick="btnApply_onclick" tooltiptext="element 값에 반영 (grid 현재 position 또는 check 된 모든 item)"/>
         <Button id="btnSave" taborder="7" text="TC저장" left="btnApply:5" top="10" width="60" height="40" onclick="btnSave_onclick" tooltiptext="작성된 TC 저장"/>
         <Button id="btnRefresh" taborder="19" text="갱신" left="btnSave:5" top="10" width="60" height="40" tooltiptext="element 값을 새로 갱신한다." onclick="btnRefresh_onclick"/>
         <Button id="btnClose" taborder="16" text="닫기" left="btnRefresh:5" top="10" width="60" height="40" onclick="btnClose_onclick" tooltiptext="TC 작성페이지 닫기"/>
-        <Button id="btnCopyRow" taborder="9" text="Row 복사" left="10" top="100" width="70" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnCopyRow_onclick" tooltiptext="선택된 TC item을 복사하여 가장 하단에 위치하게 함"/>
+        <Button id="btnCopyRow" taborder="9" text="Row 복사" left="10" top="100" width="70" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnCopyRow_onclick" tooltiptext="선택된 TC item을 복사하여 가장 하단에 위치하게 함" hotkey="CTRL+F1"/>
         <Button id="btnCopySheet" taborder="12" text="Sheet 복사" left="btnCopyRow:10" top="100" width="70" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnCopySheet_onclick" tooltiptext="Browser ALL 값 기준으로 Browser 별로 복사하기"/>
         <Button id="btnWindow" taborder="18" text="창분리" top="10" height="40" tooltiptext="창을 분리한다" onclick="btnWindow_onclick" left="btnClose:50" width="60"/>
         <Button id="btnExport" taborder="1" text="TC Export" top="10" height="40" onclick="btnExport_onclick" width="60" tooltiptext="JEBI 엑셀 Export" left="btnWindow:5"/>
@@ -574,7 +574,7 @@ this.btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	var idx = this.dsTC.addRow();
 	
 	this.dsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
-	this.dsTC.setColumn(idx, "element", this.cmbList.text); // 현재 선택된 node id를 element에 바로 세팅되게 한다.
+	this.dsTC.setColumn(idx, "element", this.cmbList.text); // 현재 선택된 node id를 element에 바로 세팅되게 한다.  
 };
 
 this.btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -821,6 +821,7 @@ this.btnCopyRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 		{
 			j = this.dsTC_Temp.addRow();
 			this.dsTC_Temp.copyRow(j, this.dsTC, i);
+			this.dsTC_Temp.setColumn(j, "check", 0);
 			
 			j = this.dsTC.addRow();
 			this.dsTC.copyRow(j, this.dsTC_Temp, i);
