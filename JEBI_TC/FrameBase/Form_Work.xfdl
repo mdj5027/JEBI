@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Work" width="1280" height="720" titletext="Form_Work" ondragmove="Form_Work_ondragmove" onload="Form_Work_onload">
+    <Layouts>
+      <Layout width="1280" height="720" screenid="Desktop_screen">
+        <Div id="divTop" taborder="0" text="Div00" left="0" top="0" height="50" right="0" hotkey="SHIFT+W" onclick="divTop_onclick">
+          <Layouts>
+            <Layout>
+              <Static id="staUrl" taborder="0" text="Test Url 입력" left="12" top="8" width="78" height="40" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+              <Edit id="edtUrl" taborder="1" left="staUrl:10" top="8" width="50%" height="40" onkeyup="divTop_edtUrl_onkeyup"/>
+              <Button id="btnConnect" taborder="2" text="연결" left="edtUrl:10" top="8" width="120" height="40" onclick="divTop_btnConnect_onclick"/>
+              <Button id="btnList" taborder="3" text="TC List" left="btnConnect:10" top="8" width="120" height="40" onclick="divTop_btnList_onclick" hotkey="CTRL+M"/>
+              <Button id="btnClose" taborder="4" text="닫기" left="btnList:10" top="10" height="40" width="120" onclick="divTop_btnClose_onclick" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnBar" taborder="1" left="400" top="divTop:5" width="6" bottom="4" ondrag="btnBar_ondrag"/>
+        <Div id="divLeft" taborder="2" text="Div00" left="0" top="divTop:5" bottom="20" ondrop="divLeft_ondrop" ondragmove="divLeft_ondragmove" right="btnBar:10" border="1px solid black">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="dsDomList" autofittype="col" onkeyup="divLeft_grdList_onkeyup">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="384"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="bind:nodeId"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:nodeId"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divRight" taborder="3" text="Div00" left="btnBar:10" top="divTop:5" right="10" bottom="20" bDrag="false" ondrop="divRight_ondrop" ondragmove="divRight_ondragmove" border="1px solid black">
+          <Layouts>
+            <Layout>
+              <WebView id="wbTarget" taborder="0" left="0" top="0" right="0" bottom="0" onloadcompleted="divRight_wbTarget_onloadcompleted"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stOverlay" taborder="5" left="0" top="0" visible="false" background="rgba(0, 0, 0, 0.4)" width="0" height="0"/>
+        <Div id="divList" taborder="4" left="50" top="divTop:-20" border="1px solid black" right="50" bottom="40" url="Base::frmTCList.xfdl" visible="false" background="white" boxShadow="10px 10px 10px #888888" text=""/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.observer;	// dom 변화를 실시간 감지하기 위한 객체 변수
+this.previousHighlightedElement; // 이전 element 저장 변수 highlight style 값을 제거하기 위함.
+
+// 화면이 시작되면 global 변수에 현재 form 객체를 담는다.
+// evn에서 화면 함수를 호출하게 하기 위함.
+this.Form_Work_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	objApp.setVariable("workForm", this);	// 현재 화면을 global에 저장 
+};
+
+//구분 바 drag 시작
+this.btnBar_ondrag = function(obj:nexacro.Button,e:nexacro.DragEventInfo)
+{
+	//obj.bDrag = true;
+	
+	//return true;
+};
+
+// 구분 바 이동 
+this.Form_Work_ondragmove = function(obj:nexacro.Form,e:nexacro.DragEventInfo)
+{
+	//this.btnBar.setOffsetLeft(e.clientx);
+	//this.resetScroll();
+};
+
+
+//------------------------------------------------------
+// divTop에 대한 로직 처리
+//------------------------------------------------------
+// 테스트 url 연결
+this.divTop_btnConnect_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.divRight.form.wbTarget.reload();
+	this.divRight.form.wbTarget.url = this.divTop.form.edtUrl.value;
+};
+
+// TC List 작성화면 호출 및 close
+this.divTop_btnList_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	
+	if ( objApp.bOpen == true )
+	{
+		this.divList.visible = false;
+		this.stOverlay.visible = false;	// overlay off
+		this.divTop.form.btnList.text = "TC List";	// 타이틀을 바꾼다.
+		return;
+	}
+	
+	if ( this.divList.visible  )
+	{
+		this.divList.visible = false;
+		this.stOverlay.visible = false;	// overlay off
+		this.divTop.form.btnList.text = "TC List";	// 타이틀을 바꾼다.
+	}
+	else
+	{
+		// divList 뒤에 overlay를 설정하여 클릭이 안되도록 하기위해 사이즈 0의 static을 전체 화면으로 키운다.
+		this.stOverlay.left = 0;
+		this.stOverlay.top = 0;
+		this.stOverlay.right = 0;
+		this.stOverlay.bottom = 0;
+		
+		this.divList.visible = true;	
+		this.stOverlay.visible = true; // overlay on
+		this.divList.form.setDataset(this);
+		this.divTop.form.btnList.visible = true;
+		this.divTop.form.btnList.text = "List 닫기"; // 타이틀을 바꾼다.
+	}
+};
+
+// url 입력 후 enter를 입력하면 연결하도록 한다.
+this.divTop_edtUrl_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if ( e.keycode == 13 )
+	{
+		this.divTop_btnConnect_onclick();
+	}
+};
+
+// 현재 조회된 화면 강제 갱신 함수로 임시...
+this.divTop_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.forceObserve();
+};
+
+//------------------------------------------------------
+// divTop에 대한 로직 처리 끝
+//------------------------------------------------------
+
+
+
+//------------------------------------------------------
+// divLeft에 대한 로직 처리
+//------------------------------------------------------
+this.divLeft_grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.setHighlight(this.dsDomList.getColumn(e.row, "nodeId"));
+};
+
+// grid 더블클릭 시 TC 작성화면으로 이동한다.
+this.divLeft_grdList_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.TC_DetailWrite(this.dsDomList.getColumn(e.row, "nodeId"));
+};
+
+// grid에서 마우스 오른쪽 버튼을 눌렀을 경우 TC 작성화면으로 이동한다.
+this.divLeft_grdList_oncontextmenu = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if ( obj.currentrow == e.row )
+	{
+		this.TC_DetailWrite(this.dsDomList.getColumn(e.row, "nodeId"));
+	}
+};
+
+// 키 동작을 통해 highlight를 변경하고, enter 동작으로 TC 작성화면으로 이동한다.
+this.divLeft_grdList_onkeyup = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	this.setHighlight(this.dsDomList.getColumn(this.dsDomList.rowposition, "nodeId"));
+	
+	if ( e.keycode == 13 )
+	{
+		this.TC_DetailWrite(this.dsDomList.getColumn(obj.currentrow, "nodeId"));
+	}
+};
+//------------------------------------------------------
+// divLeft에 대한 로직 처리 끝
+//------------------------------------------------------
+
+
+//------------------------------------------------------
+// divRight에 대한 로직 처리
+//------------------------------------------------------
+
+// webveiw에 테스트 대상 화면 로드가 끝나면 테스트 화면 Dom을 읽어 dataset에 저장한다.
+// onloadcomplete가 호출됐다고 대상화면이 모두 로드 된것이 아니어서 Dom 변화 감시 이벤트를 등록하여 체크하도록 함. (MutationObserver)
+this.divRight_wbTarget_onloadcompleted = function(obj:nexacro.WebView,e:nexacro.WebLoadCompEventInfo)
+{
+	var iframeWindow = this.divRight.form.wbTarget;
+	var iframeDocument = iframeWindow.document;
+	var pThis = this;	// 익명함수에서 this를 사용할 수 있도록 pThis에 this를 설정
+	var rowIdx = 0;
+	var isRegistMouseEvent = false;
+	const config = { childList: true, subtree: true };	// 변화 감시 대상을 설정한다. attribute : ture 시 style값 변경에도 감지가 되어 성능에 문제가 생김.
+	
+	
+	this.dsDomList.clearData()
+	this.dsDomList.addRow();
+	
+	const style = document.createElement('style');
+	style.innerHTML = ".select_highlight {box-shadow: 0 0 0 4px red inset; /* 강조를 위한 스타일 */}";
+	iframeDocument.head.appendChild(style);
+
+	// 변경 감지 시 실행할 콜백 함수 선언
+	const callback = (mutationList, observer) => {
+		var allElements = iframeDocument.getElementsByTagName('*');	// 감지된 document에서 모든 node 요소를 가지고 온다.
+
+		pThis.dsDomList.clearData();	// node를 저장할 dataset을 모두 삭제하고 다시 세팅하도록 한다.
+	
+		for (var i = 0; i < allElements.length; i++) 
+		{
+			if ( allElements[i].id )	// node에 id가 없는 경우가 있어 있는 경우만 dataset.nodeID에 값을 저장한다. (<html> 의 경우 id가 없음)
+			{
+				rowIdx = pThis.dsDomList.addRow();
+				pThis.dsDomList.setColumn(rowIdx, "nodeName", allElements[i].nodeName);
+				pThis.dsDomList.setColumn(rowIdx, "nodeId", allElements[i].id);
+			}
+		}
+		
+		// mousemove,keydown 이벤트에 대해서 eventListener를 등록한다. 
+		// dom이 변경될 때마다 감지가 되기때문에 flag를 두고 한번만 등록 되도록 한다.
+		// mousemove : highlight 효과를 주기 위해 eventListener를 등록
+		// keydown : 단축키를 눌렀을 때 TC 등록화면 or TC List 화면을 바로 호출하기 위해 eventListener를 등록
+		if ( !isRegistMouseEvent )	
+		{
+			isRegistMouseEvent = true;
+			
+			iframeDocument.addEventListener('mousedown', function(event) {
+				if (event.which === 2) // 마우스 휠 버튼
+				{
+					// 현재 위치한 dom를 고정한다.
+					pThis.isFix = pThis.isFix ? false: true;
+				}
+			}, true);
+			
+			iframeDocument.addEventListener('mousemove', function(event) {	// iframe에서 mouse move시 mouse point가 위치한 element 값에 highlight를 준다.
+				var element = iframeDocument.elementFromPoint(event.clientX, event.clientY); // mouse가 위치한 좌표의 element를 얻어옴.
+				if (element && element.id) 
+				{
+					if ( !pThis.isFix )
+					{
+						// dom list 가 저장된 dataset에서 현재 mouse가 위치한 element id 값이 있는지 체크하여 dataset position을 변경함. 
+						var index = pThis.dsDomList.findRow("nodeId", element.id);
+						pThis.dsDomList.rowposition = index;
+						pThis.setHighlight(element.id);	// mouse가 위치한 element highlight 효과를 줌.
+					}
+				}
+			});
+
+			iframeDocument.addEventListener('keydown', function(event) {
+				// 전달하려는 이벤트가 이미 처리되고 있어 오류가 발생하는 경우가 생겨 timeout으로 동작시킴
+				setTimeout(function() {
+					//document.dispatchEvent(event);
+					pThis.hotKey(event);
+					
+					}, 10);
+			});
+		}
+	};	// const callback end
+
+	// 콜백 함수에 연결된 감지기 인스턴스 생성
+	const observer = new MutationObserver(callback);
+	
+	// 설정한 변경의 감지 시작
+	observer.observe(iframeDocument, config);
+	this.observer = observer;
+};
+
+//------------------------------------------------------
+// divRight에 대한 로직 처리 끝
+//------------------------------------------------------
+
+
+//------------------------------------------------------
+// 공통 로직 처리
+//------------------------------------------------------
+
+// 강제로 node를 다시 감지하기 위한 함수
+this.forceObserve = function()
+{
+	var iframeWindow = this.divRight.form.wbTarget;
+	var iframeDocument = iframeWindow.document;
+	var allElements = iframeDocument.getElementsByTagName('*');
+		
+	this.dsDomList.clearData();
+
+	for (var i = 0; i < allElements.length; i++) 
+	{
+		if ( allElements[i].id )	// node에 id가 없는 경우가 있어 있는 경우만 dataset.nodeID에 값을 저장한다. (<html> 의 경우 id가 없음)
+		{
+			rowIdx = pThis.dsDomList.addRow();
+			pThis.dsDomList.setColumn(rowIdx, "nodeName", allElements[i].nodeName);
+			pThis.dsDomList.setColumn(rowIdx, "nodeId", allElements[i].id);
+		}
+	}
+};
+
+
+// TC 작성화면 호출
+this.TC_DetailWrite = function(nodeId)
+{
+	var objFrame = new ChildFrame();
+	var objParentFrame = this.getOwnerFrame();
+
+	objFrame.init( "TC_Detail", 0, 0, 500, 500 );
+	objFrame.set_formurl( "Base::frmTCWrite.xfdl" );
+	
+	var vRtn = objFrame.showModal( objParentFrame, {seledted_id:nodeId}, this, this.fn_callback );
+}
+
+// TC 작성 후 처리 함수
+this.fn_callback = function()
+{
+	trace("callback fn");
+}
+
+// 테스트 대상 화면 node highlight
+
+this.isFix = false;
+this.setHighlight = function(strId)
+{
+	//this.observer.disconnect();	// iframe node 값이 변경되면 계속 observer 동작이 발생되어 성능이 느려져 disconnect 한다.
+	                                // observer 가동시 attribute 감시로 인해 highlight 시에도 감지가 되어 성능이 저하되는 문제를 확인하고 disconnect를 하지 않는 것으로 재수정. (attribute 감시 부분 제외함)
+	
+	// 선택된 아이템 하이라이트
+	var selectedElement = this.divRight.form.wbTarget.document.getElementById(strId);
+	
+	if (this.previousHighlightedElement) 
+	{
+		this.previousHighlightedElement.classList.remove('select_highlight');	// highlight 대상이 이동했으니 이전 element에서 style 값을 삭제한다.
+	}
+			  
+	if (selectedElement) 
+	{
+		selectedElement.classList.add('select_highlight');	// 새롭게 선택된 element에 highlight style을 추가한다.
+		this.previousHighlightedElement = selectedElement;
+	}
+	
+	if ( this.parent.TC_Window && !this.isFix )	// 창이 분리 됐음.
+	{
+		this.parent.TC_Window.form.setHighlightNode(strId);
+	}
+};
+
+// TC 저장
+this.saveTC = function(ds)
+{
+	var index = this.dsTC.addRow();
+	var browser = ds.getColumn(0, "browser");
+		
+	this.dsTC.copyRow(index, ds, 0);
+	
+	if ( browser )	// window NRE 이면
+	{
+		this.dsTC.setColumn(index, "type", "accessibilityid");
+	}
+	else
+	{
+		this.dsTC.setColumn(index, "type", "id");
+	}
+};
+
+this.hotKey = function(event)
+{
+	if ( event.altKey && event.keyCode == 67 )	// alt + c 동작
+	{
+		this.divTop_btnList_onclick();
+	}
+}
+//------------------------------------------------------
+// 공통 로직 처리 끝
+//------------------------------------------------------
+
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsUrl">
+        <ColumnInfo>
+          <Column id="url" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsDomList">
+        <ColumnInfo>
+          <Column id="nodeName" type="STRING" size="256"/>
+          <Column id="nodeId" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTC">
+        <ColumnInfo>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divTop.form.edtUrl" propid="value" datasetid="dsUrl" columnid="url"/>
+    </Bind>
+  </Form>
+</FDL>

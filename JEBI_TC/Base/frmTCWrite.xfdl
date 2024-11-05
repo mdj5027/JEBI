@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmTCWrite" width="530" height="600" titletext="New Form" onload="frmTCWrite_onload">
+    <Layouts>
+      <Layout height="600" width="530">
+        <Static id="staLabel00" taborder="2" text="테스트 스트립트" left="13" top="91" width="94" height="40"/>
+        <TextArea id="txtDescript" taborder="3" left="128" top="91" width="388" height="102" wordWrap="char"/>
+        <Static id="staLabel01" taborder="4" text="테스트 브라우저" left="13" top="202" width="94" height="40"/>
+        <Combo id="cmbBrowser" taborder="5" text="ALL" left="128" top="202" width="388" height="40" innerdataset="dsBrowser" codecolumn="browserCode" datacolumn="browserName" index="0" value="1"/>
+        <Static id="staLabel02" taborder="6" text="테스트 action" left="13" top="251" width="94" height="40"/>
+        <Combo id="cmbAction" taborder="7" text="click" left="128" top="251" width="388" height="40" innerdataset="dsAction" codecolumn="actionCode" datacolumn="actionData" index="0" value="0"/>
+        <Static id="staTarget" taborder="0" text="테스트 Node ID" left="13" top="42" width="94" height="40"/>
+        <Edit id="edtId" taborder="1" left="128" top="42" width="388" height="40" readonly="true"/>
+        <Static id="staLabel03" taborder="8" text="테스트 수행 횟수" left="13" top="302" width="94" height="40"/>
+        <Edit id="edtCount" taborder="9" left="128" top="300" width="388" height="40" inputfilter="alpha" inputtype="number"/>
+        <Static id="staLabel04" taborder="10" text="Action 수행시간" left="13" top="351" width="94" height="40"/>
+        <Edit id="edtTime" taborder="11" left="128" top="349" width="388" height="40" inputtype="number"/>
+        <Static id="staLabel05" taborder="12" text="테스트 입력값" left="13" top="400" width="94" height="40"/>
+        <Edit id="edtInputValue" taborder="13" left="128" top="398" width="388" height="40"/>
+        <Static id="staLabel06" taborder="14" text="Key 입력값" left="13" top="449" width="94" height="40"/>
+        <Edit id="edtInputKey" taborder="15" left="128" top="447" width="388" height="40"/>
+        <Static id="staLabel07" taborder="16" text="비교타입(compareType)" left="13" top="496" width="94" height="40" wordWrap="english"/>
+        <Combo id="cbmCompareType" taborder="17" text="textValue" left="128" top="496" width="388" height="40" innerdataset="dsCompareType" codecolumn="typeCode" datacolumn="typeData" index="0" value="0"/>
+        <Static id="staLabel08" taborder="18" text="테스트 기대값" left="13" top="547" width="94" height="40"/>
+        <Edit id="edtExpectValue" taborder="19" left="128" top="545" width="388" height="40"/>
+        <Static id="staTitle" taborder="22" text="테스트 케이스 입력" left="80" top="0" width="266" height="40" font="normal 700 14pt/normal &quot;Arial&quot;"/>
+        <Button id="btnSave" taborder="20" text="TC 저장" left="341" top="3" width="79" height="35" onclick="btnSave_onclick"/>
+        <Button id="btnExit" taborder="21" text="닫기" left="441" top="3" width="79" height="35" onclick="btnExit_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.btnExit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.frmTCWrite_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+	this.edtId.value = this.getOwnerFrame().seledted_id;
+};
+
+// TC를 저장한다.
+this.btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var opener = this.getOwnerFrame().opener;
+	
+	
+	
+	opener.saveTC(this.dsTC);
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsTC">
+        <ColumnInfo>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsBrowser">
+        <ColumnInfo>
+          <Column id="browserCode" type="STRING" size="256"/>
+          <Column id="browserName" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="browserCode">1</Col>
+            <Col id="browserName">ALL</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">2</Col>
+            <Col id="browserName">Chrome</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">3</Col>
+            <Col id="browserName">Edge</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">4</Col>
+            <Col id="browserName">Safari</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">5</Col>
+            <Col id="browserName">Opera</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">6</Col>
+            <Col id="browserName">Windows_NRE</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsAction">
+        <ColumnInfo>
+          <Column id="actionCode" type="STRING" size="256"/>
+          <Column id="actionData" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="actionCode">0</Col>
+            <Col id="actionData">click</Col>
+          </Row>
+          <Row>
+            <Col id="actionCode">1</Col>
+            <Col id="actionData">input</Col>
+          </Row>
+          <Row>
+            <Col id="actionData">tab</Col>
+            <Col id="actionCode">2</Col>
+          </Row>
+          <Row>
+            <Col id="actionData">scroll</Col>
+            <Col id="actionCode">3</Col>
+          </Row>
+          <Row>
+            <Col id="actionData">sleep</Col>
+            <Col id="actionCode">4</Col>
+          </Row>
+          <Row>
+            <Col id="actionData">compare</Col>
+            <Col id="actionCode">5</Col>
+          </Row>
+          <Row>
+            <Col id="actionData">screenShot</Col>
+            <Col id="actionCode">6</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCompareType">
+        <ColumnInfo>
+          <Column id="typeCode" type="STRING" size="256"/>
+          <Column id="typeData" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="typeData">textValue</Col>
+            <Col id="typeCode">0</Col>
+          </Row>
+          <Row>
+            <Col id="typeData">comboValue</Col>
+            <Col id="typeCode">2</Col>
+          </Row>
+          <Row>
+            <Col id="typeData">ui</Col>
+            <Col id="typeCode">3</Col>
+          </Row>
+          <Row>
+            <Col id="typeData">checkStatus</Col>
+            <Col id="typeCode">4</Col>
+          </Row>
+          <Row>
+            <Col id="typeData">positon</Col>
+            <Col id="typeCode">5</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edtId" propid="value" datasetid="dsTC" columnid="element"/>
+      <BindItem id="item1" compid="txtDescript" propid="value" datasetid="dsTC" columnid="description"/>
+      <BindItem id="item2" compid="edtCount" propid="value" datasetid="dsTC" columnid="count"/>
+      <BindItem id="item3" compid="edtTime" propid="value" datasetid="dsTC" columnid="time"/>
+      <BindItem id="item4" compid="edtInputValue" propid="value" datasetid="dsTC" columnid="input"/>
+      <BindItem id="item5" compid="edtInputKey" propid="value" datasetid="dsTC" columnid="key"/>
+      <BindItem id="item6" compid="edtExpectValue" propid="value" datasetid="dsTC" columnid="expectValue"/>
+      <BindItem id="item7" compid="cmbBrowser" propid="value" datasetid="dsTC" columnid="browser"/>
+      <BindItem id="item8" compid="cmbAction" propid="value" datasetid="dsTC" columnid="action"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmImport" width="460" height="220" titletext="New Form">
+    <Layouts>
+      <Layout height="220" width="460">
+        <Button id="btnDialog" taborder="0" text="JEBI 엑셀파일 가져오기" left="10" top="20" width="186" height="38" onclick="btnDialog_onclick"/>
+        <Div id="divDrop" taborder="1" text="여기에 파일 넣기 (엑셀 파일 1개만 가능함)" left="10" top="74" height="116" background="white" border="2px dashed silver" color="silver" right="10" ondrop="divDrop_ondrop"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <FileDialog id="FileDialog" onclose="FileDialog_onclose"/>
+      <Dataset id="dsTC">
+        <ColumnInfo>
+          <Column id="level" type="STRING" size="256"/>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTC_Temp">
+        <ColumnInfo>
+          <Column id="level" type="STRING" size="256"/>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.btnDialog_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialog.open( "FileOpen", FileDialog.LOAD );
+	
+};
+
+this.FileDialog_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.fnReadFile(e.virtualfiles);
+};
+
+this.fnReadFile = function(filelist)
+{
+	var pThis = this;
+	
+	if(filelist)
+	{
+		if ( /\.(xlsx|XLSX)$/i.test(filelist[0].filename) ) {
+		  var reader = new FileReader();
+
+		  reader.targetForm = this;
+			
+		  reader.addEventListener("load", function (e) {
+			//reader.targetForm.setXmltoDs();
+			
+				const data = new Uint8Array(e.target.result);
+				const workbook = XLSX.read(data, { type: 'array' });
+				const sheetObjects = {};
+
+				workbook.SheetNames.forEach(sheetName => {
+					const worksheet = workbook.Sheets[sheetName];
+					const json = XLSX.utils.sheet_to_json(worksheet);
+					const xml = jsonToXml(json, sheetName);
+
+					// 각 시트의 이름을 키로 하고, 데이터를 구조적으로 저장
+					sheetObjects[sheetName] = {
+						jsonData: json,
+						xmlData: xml
+					};
+				});
+				
+				reader.targetForm.setXmltoDs(sheetObjects);
+				
+				function jsonToXml(json, sheetName) {
+					let xml = `<${sheetName}>\n`;
+					json.forEach(row => {
+						xml += '  <row>\n';
+						
+						for (let key in row) {
+							xml += `    <${key}>${row[key]}</${key}>\n`;
+						}
+						
+						xml += '  </row>\n';
+					});
+					
+					xml += `</${sheetName}>`;
+					return xml;
+				}
+		  }, false);
+
+		  reader.readAsArrayBuffer(filelist[0]._handle);
+		}		
+	}
+}
+
+this.setXmltoDs = function(sheetObjects)
+{
+	var objApp = nexacro.getApplication();
+	var keys = Object.keys(sheetObjects);
+	var len = keys.length;
+	var nIdx, i, j, k;
+	
+	this.dsTC.clearData();
+		
+	for (i = 0; i < keys.length; i++) 
+	{
+		var sheetKey = keys[i];
+		var jsonData = sheetObjects[sheetKey].jsonData;
+		
+		for (j = 0; j < jsonData.length; j++) 
+		{
+			var columnIds = Object.keys(jsonData[j]);
+			nIdx = this.dsTC.addRow();
+			
+			for (k = 0; k < columnIds.length; k++) 
+			{
+				var columnId = columnIds[k];
+				var columnValue = jsonData[j][columnId];
+			
+				this.dsTC.setColumn(nIdx, columnId, columnValue);
+			}
+		}
+	}	
+	
+	// TC를 작성할때는 browser == all 값이 있어야 한다.
+	// chrome 기준으로 all 을 만든다. chrome 없으면 다른 브라우저로 복사하도록 한다.
+	len = this.dsTC.rowcount;
+	
+	var cols = ["browser", "action", "ime", "compareType"];
+	for (i = 0; i < len; i++)
+	{
+		for ( j = 0; j < cols.length; j++ )
+		{
+			var key = this.dsTC.getColumn(i, cols[j]);
+			var value = this.convertCode(cols[j], key);
+			
+			this.dsTC.setColumn(i, cols[j], value);
+		}
+	}
+	
+	//trace(this.dsTC.saveXML());
+	if ( len > 0 )
+	{
+		// 크롬기준으로 all 데이터를 만든다.
+		nIdx = objApp.gdsBrowserType.findRow("browserName", "Chrome");
+		var code = objApp.gdsBrowserType.getColumn(nIdx, "browserCode");
+			
+		this.dsTC.filter("browser == " + code);
+		
+		if ( this.dsTC.rowcount > 0 )	// 크롬이 있다.
+		{
+			this.dsTC_Temp.clearData();
+			this.dsTC_Temp.copyData(this.dsTC, true);
+		}
+		
+		this.dsTC.filter("");
+		
+		for ( i = 0; i < this.dsTC_Temp.rowcount; i++ )
+		{
+			nIdx = this.dsTC.addRow();
+			this.dsTC.copyRow(nIdx, this.dsTC_Temp, i);
+			this.dsTC.setColumn(nIdx, "browser", "1");
+		}
+	}
+	objApp.workTC.dsCopy(this.dsTC);
+	objApp.workTC.btnImport_onclick();
+};
+
+this.convertCode = function(id, value)
+{
+	var objApp = nexacro.getApplication();
+	var nIdx;
+	
+	switch ( id )
+	{
+	case "browser" :
+		nIdx = objApp.gdsBrowserType.findRow("browserName", value);
+		
+		return objApp.gdsBrowserType.getColumn(nIdx, "browserCode");
+		
+	case "action" :
+		nIdx = objApp.gdsActionType.findRow("actionData", value);
+		
+		return objApp.gdsActionType.getColumn(nIdx, "actionCode");
+		
+	case "ime" :
+		nIdx = objApp.gdsImeType.findRow("imeData", value);
+		
+		return objApp.gdsImeType.getColumn(nIdx, "imeCode");
+		
+	case "compareType" :
+		nIdx = objApp.gdsCompareType.findRow("compareData", value);
+		
+		return objApp.gdsCompareType.getColumn(nIdx, "compareCode");
+	}
+	
+	return "";
+}
+
+
+this.divDrop_ondrop = function(obj:nexacro.Div,e:nexacro.DragEventInfo)
+{
+	if(e.datatype == "file")
+	{
+		this.fnReadFile(e.filelist);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

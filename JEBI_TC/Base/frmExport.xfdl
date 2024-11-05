@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="formExport" width="540" height="590" titletext="New Form">
+    <Layouts>
+      <Layout height="590" width="540">
+        <Static id="stTarget" taborder="0" left="10" top="10" width="60" height="39" text="파일명 :" font="normal 700 12pt/normal &quot;Arial&quot;"/>
+        <Edit id="edtFilename" taborder="1" left="stTarget:10" top="10" height="40" right="110" displaynulltext="파일명을 입력해주세요"/>
+        <Static id="stExplain" taborder="2" text="Export 할 Browser를 선택해주세요. &#13;&#10;바로 Export를 하면 Browser type이 &quot;ALL&quot; 인 데이터를 Sheet01에 Export 됩니다.&#13;&#10;선택한 Browser의 기본 sheet 명은 [Sheet(Browser Name)]이름입니다." left="20" top="edtFilename:10" width="500" height="55" font="normal 700 10pt/normal &quot;Arial&quot;" wordWrap="char" wordSpacing="0px"/>
+        <CheckBoxSet id="chksBrowser" taborder="3" left="20" top="stExplain:15" width="500" height="78" innerdataset="dsBrowser" codecolumn="browserCode" datacolumn="browserName" text="" index="-1" font="normal 700 10pt/normal &quot;Arial&quot;" fittocontents="none" direction="horizontal" rowcount="2" onitemclick="chksBrowser_onitemclick" onitemchanged="chksBrowser_onitemchanged"/>
+        <Grid id="grdBrowser" taborder="4" left="20" top="chksBrowser:10" height="253" binddataset="dsSelBrowser" autoenter="select" autofittype="col" right="15">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="177"/>
+                <Column size="333"/>
+              </Columns>
+              <Rows>
+                <Row size="37" band="head"/>
+                <Row size="45"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택 Browser"/>
+                <Cell col="1" text="Sheet 명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:browserName"/>
+                <Cell col="1" text="bind:sheetName" edittype="text"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnExport" taborder="5" text="JEBI TC Export" left="15" top="grdBrowser:10" height="42" onclick="btnExport_onclick" right="15"/>
+        <Button id="btnClose" taborder="6" text="닫기" left="15" top="btnExport:10" height="40" right="15" onclick="btnClose_onclick"/>
+        <Button id="btnTempSave" taborder="7" text="TC 임시저장" left="edtFilename:15" top="10" width="70" height="40" onclick="btnTempSave_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsBrowser">
+        <ColumnInfo>
+          <Column id="browserCode" type="STRING" size="256"/>
+          <Column id="browserName" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="browserCode">1</Col>
+            <Col id="browserName">ALL</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">2</Col>
+            <Col id="browserName">Chrome</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">3</Col>
+            <Col id="browserName">Edge</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">4</Col>
+            <Col id="browserName">Safari</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">5</Col>
+            <Col id="browserName">Opera</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">6</Col>
+            <Col id="browserName">Windows_NRE</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsSelBrowser">
+        <ColumnInfo>
+          <Column id="browserName" type="STRING" size="256"/>
+          <Column id="sheetName" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.cbsClick_idx;
+
+// this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// {
+// 	this.Dataset00.filter("Column0 == 'chrome'");
+// 	
+// 	trace(this.Dataset00.saveXML("Dataset00", "view"));
+// 
+// 	obj.visible = false;
+// 	
+// 	
+// // 	var idx = this.Dataset00.addRow();
+// // 	this.Dataset00.setColumn(idx, "Column0", "firefox");
+// // 	
+// // 	trace(this.Dataset00.saveXML());
+// // 	trace(this.Dataset00.saveXML("Dataset00", "view"));
+// // 	
+// // 	
+// // 	var idx = this.Dataset00.deleteRow(1);
+// // 	
+// // 	trace(this.Dataset00.saveXML());
+// // 	trace(this.Dataset00.saveXML("Dataset00", "view"));
+// };
+// 
+// this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// {
+// // 	var idx = this.Grid00.currentrow;
+// // 	this.Dataset00.insertRow(idx);
+// // 	this.Dataset00.setColumn(idx, "Column0", "firefox");
+// // 	
+// // 	trace(this.Dataset00.saveXML("Dataset00", "view"));
+// // 	trace(this.Dataset00.saveXML());
+// this.Button00.visible = false;
+// };
+// 
+// this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// {
+// 	var idx = this.Grid00.currentrow;
+// 	this.Dataset00.deleteRow(idx);
+// 	
+// 	trace(this.Dataset00.saveXML("Dataset00", "view"));
+// 	trace(this.Dataset00.saveXML());
+// 	
+// };
+
+this.initExportBrowser = function()
+{
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workTC");
+	var i, idx, v = [];
+	
+	for ( i = 1; i < objApp.gdsBrowserType.rowcount; i++ )
+	{	
+		idx = form.dsTC.findRow("browser", i);
+		
+		if ( idx > -1 )
+		{
+			v.push(i);
+		}
+	}
+	
+	this.chksBrowser.setSelectItems(v, true);
+	this.selectedBrowserCheck(v);
+}
+
+this.chksBrowser_onitemclick = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemClickEventInfo)
+{
+	this.cbsClick_idx = e.index;
+};
+
+this.chksBrowser_onitemchanged = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
+{
+	var curSelCnt, fullCnt
+	var totalItemCnt = obj.getCount();
+	
+	if ( this.cbsClick_idx == 0 )
+	{
+		obj.setSelectRange(1, totalItemCnt-1, obj.getSelect(0));
+	}
+	else 
+	{
+		curSelCnt = obj.getSelectedCount();
+		fullCnt = obj.getSelect(0) ? totalItemCnt : totalItemCnt-1; // all 이 선택된 상태면 전체 체크박스 개수(itemCnt)로 설정하고, 아니면 all을 제외한 나머지 개수(itemCnt - 1)
+		
+		if (curSelCnt == fullCnt)
+		{
+			obj.setSelectRange(0, totalItemCnt-1, true);
+		}
+		else
+		{
+			obj.setSelect(0, false);
+		}
+	}	
+	
+	this.selectedBrowserCheck(obj.getSelectedItems());
+};
+
+this.selectedBrowserCheck = function(indexs)
+{
+	// 현재 ds하여 선택된 browser가 이미 있는지 비교한다.
+	var nIdx = indexs ? indexs.length : 0;
+	
+	if( nIdx == 0 )	// 모든 선택을 해제했으므로 초기화 한다.
+	{
+		this.dsSelBrowser.clearData();
+		return;
+	}
+	
+	for ( var i = 0; i < nIdx; i++ )
+	{
+		var browserName = this.dsBrowser.getColumn(indexs[i], "browserName");
+		var idx = this.dsSelBrowser.findRow("browserName", browserName);
+		
+		if ( idx >= 0 || browserName == "ALL" ) // 기존에 등록된 브라우저가 있으므로 skip
+		{
+			continue;
+		}
+		else
+		{
+			var rowIdx = this.dsSelBrowser.addRow();
+			
+			this.dsSelBrowser.setColumn(rowIdx, "browserName", browserName);
+			this.dsSelBrowser.setColumn(rowIdx, "sheetName", "sheet("+browserName+")");
+		}
+	}
+}
+
+this.btnExport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	
+	if ( !this.edtFilename.value )
+	{
+		alert("생성할 파일명을 입력해주세요");
+		return;
+	}
+	
+	objApp.workTC.fn_exportExcel(this.dsSelBrowser, this.edtFilename.value);
+	
+// 	// 아무것도 선택하지 않으면 all 인 데이터만 exprot 한다.
+// 	if ( this.dsSelBrowser.rowcount == 0 )
+// 	{
+// 		objApp.workTC.fn_exportExcel(["1","Sheet01"]);
+// 	}
+// 	else 
+// 	{
+// 		objApp.workTC.fn_exportExcel(["1","Sheet01"]);
+// 	}
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.parent.visble = false; // 자신에 대한 visible을 변경 할 수 없음
+	this.parent.parent.destroyGrid();
+	this.parent.parent.btnExport_onclick();
+};
+
+this.btnTempSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if ( !this.edtFilename.value )
+	{
+		alert("생성할 파일명을 입력해주세요");
+		return;
+	}
+	
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workTC");
+	
+	form.btnSave_onclick();
+
+	var strDs = objApp.gdsTC.saveXML();
+	const blob = new Blob([strDs], { type: "application/xml" });
+	const url = URL.createObjectURL(blob);
+
+	// a 태그 생성 및 클릭 이벤트 트리거
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = this.edtFilename.value + ".xml";
+	a.click();
+
+	// URL 해제
+	URL.revokeObjectURL(url);
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ENV version="2.1">
+  <Environment themeid="theme::blue" datatyperule="2.0" onuserhotkey="Environment_onuserhotkey" userhotkey="writeCall=ALT+B,listCall=ALT+C">
+    <ScreenDefinition>
+      <Screen id="Desktop_screen" type="desktop"/>
+    </ScreenDefinition>
+    <Variables/>
+    <Cookies/>
+    <httpheader/>
+  </Environment>
+  <Script type="xscript5.1"><![CDATA[this.workForm;
+
+this.Environment_onuserhotkey = function(obj:nexacro.Environment,e:nexacro.EnvironmentUserHotkeyEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var pForm = objApp.getVariable("workForm");
+	
+	if ( e.keyid == "writeCall" ) // TC 작성
+	{
+		var ds = pForm.dsDomList;
+		pForm.TC_DetailWrite(ds.getColumn(ds.rowposition, "nodeId"));
+	}
+	else if ( e.keyid == "listCall" ) // 작성리스트 확인
+	{
+		pForm.divTop_btnList_onclick();
+	}
+	
+};
+]]></Script>
+</ENV>

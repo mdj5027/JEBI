@@ -1,0 +1,1110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frmTCList" width="1280" height="720" titletext="New Form" onload="frmTCList_onload" left="0" onclose="frmTCList_onclose" onbeforeclose="frmTCList_onbeforeclose" scrollbartype="default default">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="grdList" taborder="0" left="10" top="150" binddataset="dsTC" autosizingtype="none" autofittype="col" right="10" bottom="10" ondrag="grdList_ondrag" ondrop="grdList_ondrop" ondragmove="grdList_ondragmove" oncellclick="grdList_oncellclick" onheadclick="grdList_onheadclick" autoenter="select" formatid="default" nodatatext="등록된 TC가 없습니다." onmouseleave="grdList_onmouseleave">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30" band="left"/>
+                <Column size="39"/>
+                <Column size="273"/>
+                <Column size="126"/>
+                <Column size="120"/>
+                <Column size="318"/>
+                <Column size="102"/>
+                <Column size="52"/>
+                <Column size="47"/>
+                <Column size="114"/>
+                <Column size="80"/>
+                <Column size="104"/>
+                <Column size="108"/>
+                <Column size="149"/>
+                <Column size="148"/>
+                <Column size="160"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell col="1" text="testscript_no"/>
+                <Cell col="2" text="description"/>
+                <Cell col="3" text="browser"/>
+                <Cell col="4" text="action"/>
+                <Cell col="5" text="element"/>
+                <Cell col="6" text="dictionaryKey"/>
+                <Cell col="7" text="count"/>
+                <Cell col="8" text="time"/>
+                <Cell col="9" text="input"/>
+                <Cell col="10" text="zoom"/>
+                <Cell col="11" text="ime"/>
+                <Cell col="12" text="key"/>
+                <Cell col="13" text="compareType"/>
+                <Cell col="14" text="resultValue"/>
+                <Cell col="15" text="expectValue"/>
+                <Cell col="16" text="expectUI"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="checkbox" text="bind:check" displaytype="checkboxcontrol"/>
+                <Cell col="1" text="bind:testscript_no" expr="currow+1" textAlign="center"/>
+                <Cell col="2" text="bind:description" displaytype="normal" edittype="none"/>
+                <Cell col="3" text="bind:browser" displaytype="combocontrol" edittype="combo" combodataset="dsBrowser" combocodecol="browserCode" combodatacol="browserName"/>
+                <Cell col="4" text="bind:action" displaytype="combocontrol" edittype="combo" combodataset="dsAction" combocodecol="actionCode" combodatacol="actionData"/>
+                <Cell col="5" text="bind:element" displaytype="editcontrol" edittype="text" tooltiptext="bind:element"/>
+                <Cell col="6" text="bind:dictionaryKey" edittype="text" displaytype="normal"/>
+                <Cell col="7" text="bind:count" displaytype="number" edittype="text"/>
+                <Cell col="8" text="bind:time" displaytype="number" edittype="text"/>
+                <Cell col="9" text="bind:input" displaytype="normal" edittype="none"/>
+                <Cell col="10" text="bind:zoom" edittype="text" displaytype="number"/>
+                <Cell col="11" text="bind:ime" displaytype="combocontrol" edittype="combo" combodataset="dsIme" combocodecol="imeCode" combodatacol="imeData"/>
+                <Cell col="12" text="bind:key" displaytype="text" edittype="text"/>
+                <Cell col="13" text="bind:compareType" edittype="combo" displaytype="combocontrol" combodataset="dsCompare" combocodecol="compareCode" combodatacol="compareData"/>
+                <Cell col="14" text="bind:resultValue" displaytype="normal" edittype="none"/>
+                <Cell col="15" text="bind:expectValue" displaytype="normal" edittype="none"/>
+                <Cell col="16" text="bind:expectUI" edittype="text"/>
+              </Band>
+            </Format>
+            <Format id="exportFormat">
+              <Columns>
+                <Column size="56"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="240"/>
+                <Column size="80"/>
+                <Column size="52"/>
+                <Column size="47"/>
+                <Column size="114"/>
+                <Column size="80"/>
+                <Column size="104"/>
+                <Column size="108"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="42"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="testscript_no"/>
+                <Cell col="1" text="testscript_id"/>
+                <Cell col="2" text="description"/>
+                <Cell col="3" text="browser"/>
+                <Cell col="4" text="type"/>
+                <Cell col="5" text="action"/>
+                <Cell col="6" text="element"/>
+                <Cell col="7" text="dictionaryKey"/>
+                <Cell col="8" text="count"/>
+                <Cell col="9" text="time"/>
+                <Cell col="10" text="input"/>
+                <Cell col="11" text="zoom"/>
+                <Cell col="12" text="ime"/>
+                <Cell col="13" text="key"/>
+                <Cell col="14" text="compareType"/>
+                <Cell col="15" text="resultValue"/>
+                <Cell col="16" text="expectValue"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:testscript_no" expr="currow+1" textAlign="center"/>
+                <Cell col="1" text="bind:testscript_id" displaytype="editcontrol" edittype="text"/>
+                <Cell col="2" text="bind:description" displaytype="textareacontrol" edittype="textarea"/>
+                <Cell col="3" text="bind:browser" displaytype="combocontrol" edittype="combo" combodataset="dsBrowser" combocodecol="browserCode" combodatacol="browserName"/>
+                <Cell col="4" text="bind:type"/>
+                <Cell col="5" text="bind:action" displaytype="combocontrol" edittype="combo" combodataset="dsAction" combocodecol="actionCode" combodatacol="actionData"/>
+                <Cell col="6" text="bind:element" displaytype="editcontrol" edittype="text" tooltiptext="bind:element"/>
+                <Cell col="7" text="bind:dictionaryKey"/>
+                <Cell col="8" text="bind:count" displaytype="number" edittype="text"/>
+                <Cell col="9" text="bind:time" displaytype="number" edittype="text"/>
+                <Cell col="10" text="bind:input" displaytype="textareacontrol" edittype="textarea"/>
+                <Cell col="11" text="bind:zoom"/>
+                <Cell col="12" text="bind:ime" displaytype="combocontrol" edittype="combo" combodataset="dsIme" combocodecol="imeCode" combodatacol="imeData"/>
+                <Cell col="13" text="bind:key" displaytype="text" edittype="text"/>
+                <Cell col="14" text="bind:compareType" edittype="combo" displaytype="combocontrol" combodataset="dsCompare" combocodecol="compareCode" combodatacol="compareData"/>
+                <Cell col="15" text="bind:resultValue" displaytype="textareacontrol" edittype="textarea"/>
+                <Cell col="16" text="bind:expectValue" displaytype="textareacontrol" edittype="textarea"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnNew" taborder="8" text="NEW" left="10" top="11" width="40" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnNew_onclick" tooltiptext="모든 TC 초기화"/>
+        <Button id="btnAdd" taborder="2" text="+" left="btnNew:10" top="10" width="40" height="40" font="normal 700 20pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnAdd_onclick" tooltiptext="TC Item 추가"/>
+        <Button id="btnDel" taborder="3" text="-" left="btnAdd:10" top="10" width="40" height="40" font="normal 700 20pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnDel_onclick" tooltiptext="TC Item 삭제 (grid 현재 position 또는 check 된 모든 item)"/>
+        <Static id="stTarget" taborder="4" left="btnDel:10" top="10" width="80" height="39" text="Element :" font="normal 700 12pt/normal &quot;Arial&quot;"/>
+        <Combo id="cmbList" taborder="5" text="Combo00" left="stTarget:6" top="10" width="500" height="40" innerdataset="dsDomList" codecolumn="nodeName" datacolumn="nodeId" type="filterlike"/>
+        <Button id="btnApply" taborder="6" text="반영" left="cmbList:10" top="10" width="60" height="40" onclick="btnApply_onclick" tooltiptext="element 값에 반영 (grid 현재 position 또는 check 된 모든 item)"/>
+        <Button id="btnSave" taborder="7" text="TC저장" left="btnApply:5" top="10" width="60" height="40" onclick="btnSave_onclick" tooltiptext="작성된 TC 저장"/>
+        <Button id="btnRefresh" taborder="19" text="갱신" left="btnSave:5" top="10" width="60" height="40" tooltiptext="element 값을 새로 갱신한다." onclick="btnRefresh_onclick"/>
+        <Button id="btnClose" taborder="16" text="닫기" left="btnRefresh:5" top="10" width="60" height="40" onclick="btnClose_onclick" tooltiptext="TC 작성페이지 닫기"/>
+        <Button id="btnCopyRow" taborder="9" text="Row 복사" left="10" top="100" width="70" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnCopyRow_onclick" tooltiptext="선택된 TC item을 복사하여 가장 하단에 위치하게 함"/>
+        <Button id="btnCopySheet" taborder="12" text="Sheet 복사" left="btnCopyRow:10" top="100" width="70" height="40" font="normal 700 10pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle" onclick="btnCopySheet_onclick" tooltiptext="Browser ALL 값 기준으로 Browser 별로 복사하기"/>
+        <Button id="btnWindow" taborder="18" text="창분리" top="10" height="40" tooltiptext="창을 분리한다" onclick="btnWindow_onclick" left="btnClose:50" width="60"/>
+        <Button id="btnExport" taborder="1" text="TC Export" top="10" height="40" onclick="btnExport_onclick" width="60" tooltiptext="JEBI 엑셀 Export" left="btnWindow:5"/>
+        <Button id="btnImport" taborder="10" text="TC Import" top="10" height="40" onclick="btnImport_onclick" tooltiptext="JEBI 엑셀 Import" width="60" left="btnExport:5"/>
+        <Static id="stBrowser" taborder="11" left="btnCopySheet:90" top="101" width="150" height="39" text="TC Filter(Browser) :" font="normal 700 12pt/normal &quot;Arial&quot;"/>
+        <Radio id="rdoBrowser" taborder="13" left="stBrowser:20" top="100" width="440" height="40" innerdataset="dsBrowser" codecolumn="browserCode" datacolumn="browserName" index="0" text="ALL" value="1" direction="vertical" font="normal 700 10pt/normal &quot;Arial&quot;" minwidth="" onitemchanged="rdoBrowser_onitemchanged" fittocontents="width" tooltiptext="grid를 Browser 별로 보기"/>
+        <Div id="divBrowser" taborder="14" left="btnCopySheet:0" top="btnCopySheet:-10" width="520" height="210" border="1px solid silver" background="white" visible="false" boxShadow="5px 5px 10px silver" text="" onkillfocus="divBrowser_btnCancel_onclick">
+          <Layouts>
+            <Layout>
+              <Static id="stBrowser01" taborder="1" left="10" top="10" width="460" height="40" text="복사 할 Browser를 선택해주세요." font="normal 700 12pt/normal &quot;Arial&quot;"/>
+              <CheckBoxSet id="chksBrowser" taborder="0" left="10" top="stBrowser01:10" width="500" height="78" innerdataset="dsBrowser" codecolumn="browserCode" datacolumn="browserName" text="" index="-1" font="normal 700 10pt/normal &quot;Arial&quot;" fittocontents="none" direction="horizontal" rowcount="2" onitemchanged="divBrowser_chksBrowser_onitemchanged" onitemclick="divBrowser_chksBrowser_onitemclick"/>
+              <Button id="btnCopy" taborder="2" text="sheet 복사" left="10" top="149" width="120" height="50" onclick="divBrowser_btnCopy_onclick"/>
+              <Button id="btnCancel" taborder="3" text="닫기" left="140" top="149" width="120" height="50" onclick="divBrowser_btnCancel_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divExport" taborder="15" top="btnExport:10" height="580" border="1px solid silver" boxShadow="5px 5px 10px silver" background="white" url="Base::frmExport.xfdl" right="20" visible="false" width="590" text="" formscrolltype="both" formscrollbartype="default default" onkillfocus="divExport_onkillfocus"/>
+        <TextArea id="txtDescription" taborder="17" left="241" top="572" width="390" height="116" visible="false" onkillfocus="txtDescription_onkillfocus" hotkey="ESCAPE" oninput="txtDescription_oninput"/>
+        <Div id="divDrag" taborder="20" left="65" top="453" width="201" height="59" border="1px solid black" background="white" borderRadius="10px 10px" boxShadow="5px 5px 10px silver" font="normal bold 10pt/normal &quot;Arial&quot;" visible="false" dragText="" ondrop="divDrag_ondrop"/>
+        <Div id="divImport" taborder="21" text="Div00" top="btnImport:10" width="450" height="210" background="white" border="1px solid silver" boxShadow="5px 5px 10px silver" url="Base::frmImport.xfdl" right="btnImport:0" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <ExcelExportObject id="ExcelExportObject00" onerror="ExcelExportObject00_onerror" onsuccess="ExcelExportObject00_onsuccess"/>
+      <ExcelImportObject id="ExcelImportObject00" onerror="ExcelImportObject00_onerror" onsuccess="ExcelImportObject00_onsuccess"/>
+      <Dataset id="dsTC_Temp">
+        <ColumnInfo>
+          <Column id="level" type="STRING" size="256"/>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBrowser">
+        <ColumnInfo>
+          <Column id="browserCode" type="STRING" size="256"/>
+          <Column id="browserName" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="browserCode">1</Col>
+            <Col id="browserName">ALL</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">2</Col>
+            <Col id="browserName">Chrome</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">3</Col>
+            <Col id="browserName">Edge</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">4</Col>
+            <Col id="browserName">Safari</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">5</Col>
+            <Col id="browserName">Opera</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">6</Col>
+            <Col id="browserName">Windows_NRE</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsAction">
+        <ColumnInfo>
+          <Column id="actionCode" type="STRING" size="256"/>
+          <Column id="actionData" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDomList">
+        <ColumnInfo>
+          <Column id="nodeName" type="STRING" size="256"/>
+          <Column id="nodeId" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsIme">
+        <ColumnInfo>
+          <Column id="imeCode" type="STRING" size="256"/>
+          <Column id="imeData" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="imeCode">1</Col>
+            <Col id="imeData">KO</Col>
+          </Row>
+          <Row>
+            <Col id="imeCode">2</Col>
+            <Col id="imeData">EN</Col>
+          </Row>
+          <Row>
+            <Col id="imeCode">3</Col>
+            <Col id="imeData">JP</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsTC">
+        <ColumnInfo>
+          <Column id="level" type="STRING" size="256"/>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="testscript_no" type="STRING" size="256"/>
+          <Column id="testscript_id" type="STRING" size="256"/>
+          <Column id="description" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+          <Column id="type" type="STRING" size="256"/>
+          <Column id="action" type="STRING" size="256"/>
+          <Column id="element" type="STRING" size="256"/>
+          <Column id="dictionaryKey" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+          <Column id="time" type="STRING" size="256"/>
+          <Column id="input" type="STRING" size="256"/>
+          <Column id="zoom" type="STRING" size="256"/>
+          <Column id="ime" type="STRING" size="256"/>
+          <Column id="key" type="STRING" size="256"/>
+          <Column id="compareType" type="STRING" size="256"/>
+          <Column id="resultValue" type="STRING" size="256"/>
+          <Column id="expectValue" type="STRING" size="256"/>
+          <Column id="expectUI" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCompare">
+        <ColumnInfo>
+          <Column id="compareCode" type="STRING" size="256"/>
+          <Column id="compareData" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+//this.exportUrl = "http://172.10.12.8:8080/nexacro-xeni-java/XExportImport" ;	// export URL
+this.importUrl = "http://localhost:8080/nexacro-xeni-java/XImport" ;			// import URL
+
+//this.exportUrl = "http://localhost:8080/nexacro-xeni-java/XExportImport" ;	// export URL
+//this.importUrl = "http://localhost:8080/nexacro-xeni-java/XImport"
+
+this.exportUrl = window.location.protocol + "//" + window.location.host + "/nexacro-xeni-java/XExportImport"
+
+
+this.isAll = false;
+this.currentBrowser = 2; // chrome
+this.cbsClick_idx; //  checkboxset 선택 인덱스 저장 변수
+this.objTemp = []; // 동적으로 생성한 grid, ds 을 저장하는 변수
+this.grdCellIdx; // text를 따로 띄워 TC를 작성하기 위해 cell index를 저장하는 변수
+
+// main 에서 현재 폼을 링크한 div을 미리 로드 해놓기 때문에 TC 작성화면 들어오기전에 바로 호출이 된다.
+// 창 분리 할때는 새롭게 onload가 호출이 되므로 창분리에 대한 로직이 필요하다.
+this.frmTCList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var owner = this.getOwnerFrame();
+
+	if ( owner.isOpen == true )	// open 창으로 창분리 체크, isOpen은 창분리 할때 전달된 인자값.
+	{
+		this.setDataset(owner.opener);	// 필요한 ds를 부모창에서 가져다 세팅한다.
+		this.btnWindow.text = "창복귀";
+	}
+};
+
+// TC 작성에 필요한 ds를 세팅한다.
+this.setDataset = function(obj)
+{
+	var objApp = nexacro.getApplication();
+	var ds, nodeId, form;
+	
+	form = objApp.getVariable("workForm");
+	ds = form.dsDomList;
+	nodeId = ds.getColumn(ds.rowposition, "nodeId");
+	
+	objApp.setVariable("workTC", this); // global에 현재 div 정보를 저장한다.
+	
+	this.dsDomList.copyData(ds);
+	this.dsAction.copyData(objApp.gdsActionType);
+	
+	this.dsTC.clearData();
+	this.dsTC.copyData(objApp.gdsTC);
+	
+	this.dsBrowser.clearData();
+	this.dsBrowser.copyData(objApp.gdsBrowserType);
+	
+	this.dsCompare.clearData();
+	this.dsCompare.copyData(objApp.gdsCompareType);
+	
+	this.dsIme.clearData();
+	this.dsIme.copyData(objApp.gdsImeType);
+	
+	this.cmbList.text = nodeId;
+};
+
+
+this.dsCopy = function(ds)
+{
+	this.dsTC.copyData(ds);
+}
+
+this.btnExport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.grdList.formatid = "exportFormat";
+	//this.fn_exportExcel(this.grdList);
+	if ( this.divExport.visible )
+	{
+		this.divExport.visible = false;
+	}
+	else
+	{
+		this.divExport.visible = true;
+		this.divExport.setFocus();
+		this.divExport.form.initExportBrowser();
+	}
+};
+
+//-----------------------------------------------------------------------
+// Grid를 Excel 내보내는 함수
+// Entry arrObjGrid:그리드 오브젝트가 들어있는 배열
+//  배열에 담긴 여러 Grid 개체를 하나의 파일의  여러 시트에 걸쳐 출력합니다.
+//-----------------------------------------------------------------------
+this.fn_exportExcel = function (ds, filaName)
+{
+	var len;
+	var	browserName, strSheetName, idx, code, i, grid;
+	
+	this.destroyGrid();	// 동적 생성 grid, dataset 제거
+	this.ExcelExportObject00.clear(); // ExcelExportObject clear
+	
+	this.ExcelExportObject00.set_exporttype(nexacro.ExportTypes.EXCEL2007);	//내보내기 할 엑셀 형식 지정
+	this.ExcelExportObject00.set_exportfilename(filaName);				
+	this.ExcelExportObject00.set_exporturl(this.exportUrl);
+	
+	this.dsTC.enableevent = false;
+	
+		
+	//파일명이 입력이 되면 testscript에 파일명 기준으로 order를 부여한다.
+	len = this.dsTC.rowcount;
+	for ( i = 0; i < len; i++ )
+	{
+		this.dsTC.setColumn(i, "testscript_id", filaName + "_" + i);
+	}
+	
+	len = ds.rowcount;
+	for ( i = 0; i < len; i++ )
+	{
+		browserName = ds.getColumn(i, "browserName");
+		strSheetName = ds.getColumn(i, "sheetName");
+		idx = this.dsBrowser.findRow("browserName", browserName);
+		code = this.dsBrowser.getColumn(idx, "browserCode");
+		
+		this.dsTC.filter("browser == '" + code + "'");
+		this.objTemp[i] = this.createGrid("grid_"+browserName, this.grdList, this.dsTC);
+		grid = this.objTemp[i]["grid"];		
+		grid.visible = false;
+		this.addChild("grid_"+browserName, grid);
+		
+		grid.show();  // show를 하지 않으면 동적으로 생성한 그리드를 export 할 수 없다.
+
+		this.ExcelExportObject00.addExportItem(nexacro.ExportItemTypes.GRID, grid, strSheetName+"!A1");
+	}
+	
+	this.ExcelExportObject00.exportData();
+	
+	this.dsTC.filter("browser == '" + this.rdoBrowser.value + "'");
+	this.dsTC.enableevent = true;
+}
+
+this.createGrid = function(grdName, orgGrid, ds)
+{
+	var objGrid = new Grid(grdName, orgGrid.getPixelLeft(), orgGrid.getPixelTop(), orgGrid.getPixelWidth(), orgGrid.getPixelHeight(), null, null);
+	
+	objGrid.formats = orgGrid.formats;
+	objGrid.formatid = "exportFormat";
+
+	var objDs = new Dataset;
+	objDs.copyData(ds, true);
+	objGrid.binddataset = objDs;
+	
+	return {grid:objGrid, dataset:objDs};
+}
+
+this.destroyGrid = function()
+{
+	for ( i = 0; i < this.objTemp.length; i++ )
+	{
+		this.removeChild(this.objTemp[i]["grid"].name);
+		this.objTemp[i]["grid"].destroy();
+		this.objTemp[i]["grid"] = null;
+		
+		this.objTemp[i]["dataset"].destroy();
+		this.objTemp[i]["dataset"] = null;
+	}
+	
+	this.objTemp = [];
+}
+
+this.ExcelExportObject00_onerror = function(obj:nexacro.ExcelExportObject,e:nexacro.ExcelExportErrorEventInfo)
+{
+	trace(obj.name + ":" + e.eventid);
+	trace("\ne.eventid: " + e.eventid);
+	trace("\ne.fromobject: " + e.fromobject);
+	trace("\ne.fromreferenceobject: " + e.fromreferenceobject);
+	trace("\ne.errorcode: " +  e.errorcode);
+	trace("\ne.errormsg: " + e.errormsg);
+};
+
+this.ExcelExportObject00_onsuccess = function(obj:nexacro.ExcelExportObject,e:nexacro.ExcelExportEventInfo)
+{
+	trace(obj.name + ":" + e.eventid);
+	trace("\ne.eventid/e.fromobject/e.fromreferenceobject/e.url: " + e.eventid+"/"+e.fromobject+"/"+e.fromreferenceobject+"/"+e.url);
+};
+
+
+this.nDragCount = 0;
+this.grdList_ondrag = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	if ( e.row >= 0 )
+	{
+		e.userdata = e.row;
+		
+		//this.stDragNo.dragText = e.row + 1 + "번 TC";
+		this.divDrag.dragText = e.row + 1 + "번 TC";
+		
+		return true;
+	}
+};
+
+this.grdList_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	// row를 바꾼다.
+	this.dsTC_Temp.assign(this.dsTC);
+	this.dsTC.copyRow(e.userdata, this.dsTC_Temp, e.row);
+	this.dsTC.copyRow(e.row, this.dsTC_Temp, e.userdata);
+	
+	this.divDrag.visible = false;
+	this.divDrag.dragText = "";
+	
+	this.nDragCount = 0;
+};
+
+this.divDrag_ondrop = function(obj:nexacro.Div,e:nexacro.DragEventInfo)
+{
+	this.divDrag.visible = false;
+	this.nDragCount = 0;
+};
+
+this.grdList_ondragmove = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	this.nDragCount++;
+
+	if ( e.row < 0 )	// header 영역이나 grid body 영역 중 빈영역 인 경우에는 취소하도록 한다.
+	{
+		this.divDrag.visible = false;
+		this.nDragCount = 0;
+		return;
+	}
+	
+	this.divDrag.text = this.divDrag.dragText + "를 " + (e.row + 1) + "번 위치로 이동";
+	
+	if ( this.nDragCount > 5 )	// 클릭 동작과 drag 동작을 구분하기 위해 클릭 후 move 이벤트가 5번 이상 발생해야 drag로 인정하도록 함.
+	{
+		var left;
+		
+		this.divDrag.visible = true;
+		
+		// divDrag가 오른쪽으로 갔을때 grid를 넘어가는 현상을 보정해주기 위한 로직
+		if ( e.clientx > this.grdList.getOffsetWidth() / 2 )
+		{
+			left = e.clientx - this.divDrag.getOffsetWidth();
+		}
+		else
+		{
+			left = e.clientx + 20;
+		}
+		this.divDrag.setOffsetLeft(left);
+		this.divDrag.setOffsetTop(e.screeny-this.grdList.getOffsetTop()-this.divDrag.getOffsetHeight()/2);
+	}
+};
+
+
+// 
+// this.chbBrowser_onitemclick = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemClickEventInfo)
+// {
+// 	trace(e.index + " : " + e.itemtext + " : " + e.itemvalue );
+// };
+// 
+// this.chbBrowser_onitemchanged = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
+// {
+// 	trace(e.preindex + " : " + e.pretext + " : " + e.prevalue );
+// 	trace(e.postindex + " : " + e.posttext + " : " + e.postvalue );
+// 	
+// 	if ( e.posttext == "ALL" )
+// 	{
+// 		this.isAll = true;
+// 		
+// 		모든 아이템이 다 선택되게 해야 한다.
+// 		obj.value = "1,2,3,4,5,6";
+// 	}
+// };
+// 
+// this.chbBrowser_canitemchange = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
+// {
+// 	
+// };
+// 
+// this.CheckBox00_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+// {
+// 		trace(e.postvalue + " : " + e.prevalue );
+// };
+// 
+// this.CheckBox00_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
+// {
+// 	trace(e.value);
+// };
+
+this.btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var idx = this.dsTC.addRow();
+	
+	this.dsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
+};
+
+this.btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var bOK;
+	
+	if ( this.dsTC.rowposition < 0 || this.dsTC.rowcount == 0 )
+	{
+		alert("삭제 지정된 Row가 없습니다.");
+		return;
+	}
+	
+	bOK = objApp.confirm( "정말 삭제하시겠습니까? " ); // 상세 TC 정보가 표시되도록 해야함.
+	
+	if ( bOK )
+	{
+		var idx = this.dsTC.findRow("check", 1);
+		
+		if ( idx > -1)
+		{
+			// 선택된 row를 모두 지운다.
+			// 맨 아래에서 부터 지운다.
+			var arr = this.dsTC.extractRows("check == 1");
+			this.dsTC.deleteMultiRows(arr);
+		}
+		else
+		{
+			this.dsTC.deleteRow(this.grdList.currentrow);
+		}
+		
+		idx = this.dsTC.findRow("check", 1);
+		if ( this.dsTC.rowcount == 0 || idx == -1 )
+		{
+			this.grdList.setCellProperty("head", 0, "text", 0);
+		}
+	}
+};
+
+this.grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if ( e.fromobject.id == "cellcheckbox" )
+	{
+		var chk = this.dsTC.getColumn(e.row, "check");
+		
+		if ( chk == false )	// 하나라도 해제되면 전체 선택값도 해제한다.
+		{
+			this.dsTC.setColumn(e.row, "check", 0);
+			obj.setCellProperty("head", e.cell, "text", 0);
+		}
+		else // 하나가 선택되면 전체가 선택되어 있는지 비교하여 전체가 다 선택되어 있으면 head 영역도 체크하게 한다.
+		{
+			var sum = this.dsTC.getSum("check");
+			
+			if ( sum == this.dsTC.rowcount )
+			{
+				obj.setCellProperty("head", e.cell, "text", 1);
+			}
+		}
+	}
+	else
+	{
+		if ( e.cell == 2 || e.cell == 9 || e.cell == 14 || e.cell == 15 )
+		{
+			this.grdCellIdx = e.cell;
+			
+			var rightPos = obj.getOffsetLeft() + obj.getOffsetWidth();
+
+			if( e.clientx + this.txtDescription.getOffsetWidth() > (rightPos - 10) )
+			{
+				this.txtDescription.left = e.clientx - this.txtDescription.getOffsetWidth();
+			}
+			else
+			{
+				this.txtDescription.left = e.clientx;
+			}
+			
+			var bottomPos = obj.getOffsetTop() + obj.getOffsetHeight();
+			
+			if ( e.clienty + this.txtDescription.getOffsetHeight() > bottomPos - 30 )
+			{
+				this.txtDescription.top = e.clienty - this.txtDescription.getOffsetHeight();
+			}
+			else
+			{
+				this.txtDescription.top = e.clienty + 30;
+			}
+				
+			var text; 
+			if ( e.cell == 2 )
+			{
+				text = this.dsTC.getColumn(this.grdList.currentrow, "description");
+			}
+			else if ( e.cell == 9 )
+			{
+				text = this.dsTC.getColumn(this.grdList.currentrow, "input");
+			}
+			else if ( e.cell == 14 )
+			{
+				text = this.dsTC.getColumn(this.grdList.currentrow, "resultValue");
+			}
+			else if ( e.cell == 15 )
+			{
+				text = this.dsTC.getColumn(this.grdList.currentrow, "expectValue");
+			}
+			
+			this.txtDescription.value = text;
+			this.txtDescription.visible = true;
+			this.txtDescription.setFocus();
+			
+		}
+	}
+};
+
+this.txtDescription_onkillfocus = function(obj:nexacro.TextArea,e:nexacro.KillFocusEventInfo)
+{
+	if ( this.grdCellIdx == 2 )
+	{
+		this.dsTC.setColumn(this.grdList.currentrow, "description", obj.value);
+	}
+	else if ( this.grdCellIdx == 9 )
+	{
+		this.dsTC.setColumn(this.grdList.currentrow, "input", obj.value);
+	}
+	else if ( this.grdCellIdx == 14 )
+	{
+		this.dsTC.setColumn(this.grdList.currentrow, "resultValue", obj.value);
+	}
+	else if ( this.grdCellIdx == 15 )
+	{
+		this.dsTC.setColumn(this.grdList.currentrow, "expectValue", obj.value);
+	}
+			
+	obj.visible = false;
+};
+
+this.grdList_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	trace(e.cell + " : " + e.col + " : " + e.row ); 
+	
+	if ( e.fromobject.id == "cellcheckbox" )
+	{
+		//if ( e.fromobject.checked == false )	// 이전값이 저장되어 있어 false 가 선택되어진 상태이다.
+		if( obj.getCellProperty( "Head", 0, "text" ) != 1 )
+		{
+			for ( var i = 0; i < this.dsTC.rowcount; i++ )
+			{
+				this.dsTC.setColumn(i, "check", 1); // 전체 선택이 선택됐으니 모두 체크한다.
+			}
+			
+			obj.setCellProperty("head", e.cell, "text", 1);
+		}
+		else 
+		{	
+			for ( var i = 0; i < this.dsTC.rowcount; i++ )
+			{
+				this.dsTC.setColumn(i, "check", 0); // 전체 선택이 해제됐으니 모두 해제한다.
+			}
+			
+			obj.setCellProperty("head", e.cell, "text", 0);
+		}
+	}
+};
+
+this.btnApply_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// element 값을 grid에 적용한다.
+	// grid의 check 된 값을 찾는다.
+	
+	var chk = this.dsTC.findRow("check", 1);
+	
+	if ( chk >= 0 ) 
+	{
+		for ( var i = 0; i < this.dsTC.rowcount; i++ )
+		{
+			if ( this.dsTC.getColumn(i, "check") == 1 ) // 적용 대상
+			{
+				this.dsTC.setColumn(i, "element", this.cmbList.text);
+			}
+		}
+	}
+	else
+	{
+		this.dsTC.setColumn(this.grdList.currentrow, "element", this.cmbList.text);
+	}
+	// 다른 적용값을 grid에 적용한다. todo
+};
+
+this.btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	
+	objApp.gdsTC.clearData();
+	objApp.gdsTC.copyData(this.dsTC);
+};
+
+this.btnNew_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.dsTC.clearData();
+	this.grdList.setCellProperty("head", 0, "text", 0);
+};
+
+this.btnClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workForm");
+	
+	var len = this.dsTC.rowcount;
+	
+	if ( len > 0 )
+	{
+		var bOK = this.confirm( "작성한 TC가 있습니다. 저장하시겠습니까? 저장하지 않고 닫으시려면 취소를 눌러주세요." ); 
+	
+		if ( bOK )
+		{
+			this.btnSave_onclick();
+		}
+	}
+	
+	var bOpen = objApp.getVariable("bOpen");
+	if ( bOpen == "TRUE" )
+	{
+		form.divTop.form.btnList.visible = true;
+		this.close();
+	}
+	else
+	{
+		form.divTop_btnList_onclick();
+	}
+};
+
+// checkbox control로 선택된 항목에 대해서 복사하여 가장 하단에 copy 한다.
+// checkbox control이 복수 개은 경우에는 모두 copy한다.
+this.btnCopyRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var rowcount = this.dsTC.rowcount;
+	var i, j
+
+	this.dsTC_Temp.clearData();
+	
+	for ( i = 0, j = 0; i < rowcount; i++ )
+	{
+		if ( this.dsTC.getColumn(i, "check") )
+		{
+			j = this.dsTC_Temp.addRow();
+			this.dsTC_Temp.copyRow(j, this.dsTC, i);
+			
+			j = this.dsTC.addRow();
+			this.dsTC.copyRow(j, this.dsTC_Temp, i);
+		}
+	}
+};
+
+// 엑셀 import
+this.btnImport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+// 	this.ExcelImportObject00.importtype = nexacro.ImportTypes.EXCEL2007;
+//     this.ExcelImportObject00.importurl = this.importUrl;
+//     this.ExcelImportObject00.importData("","Head=Sheet01!A1:Q1;Body=Sheet01!A2:Q5","dsTC"); 	//Head 영역 지정시
+
+	if ( this.divImport.visible == false )
+	{
+		this.divImport.visible = true;
+	}
+	else
+	{
+		this.divImport.visible = false;
+	}
+};
+
+this.ExcelImportObject00_onerror = function(obj:nexacro.ExcelImportObject,e:nexacro.ExcelImportErrorEventInfo)
+{
+	trace(1);
+};
+
+this.ExcelImportObject00_onsuccess = function(obj:nexacro.ExcelImportObject,e:nexacro.ExcelImportEventInfo)
+{
+	trace(2);
+};
+
+// 선택된 browser 만큼 sheet를 복제한다.
+// dataset에 chrome 기준의 모든 내용을 복제한 후 복제한 data browser 컬럼에 선택된 browser 정보를 넣는다.
+this.btnCopySheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divBrowser.visible = true;
+	this.divBrowser.form.chksBrowser.clearSelect(); // 이전에 선택된 내용을 삭제한다
+	
+	this.divBrowser.form.btnCopy.setFocus();
+};
+
+this.copyDatasetBrowserType = function(strBroswerType)
+{
+	// 원본 dataset (dsTC)에서 All 에 해당하는 값 복제한다.
+	this.dsTC.enableevent = false;
+	this.dsTC.filter("browser == '1'");
+	this.dsTC_Temp.clearData();
+	this.dsTC_Temp.copyData(this.dsTC, true);
+	this.dsTC.filter("");
+	
+	// 복사한 ds를 원본 데이터 밑에 복사한다.
+	// 복사를 할 때 browser 값은 선택한 browser 값이 설정되도록 한다.
+	// type 해당하는 값 세팅하기
+	// type = accessibilityid // nre
+	//      = id // wre
+	var len = this.dsTC_Temp.rowcount;
+	for ( var i = 0; i < len; i++ )
+	{
+		this.dsTC_Temp.setColumn(i, "browser", strBroswerType);
+		
+		if ( strBroswerType == "6" ) 
+		{
+			this.dsTC_Temp.setColumn(i, "type", "accessibilityid");
+			
+			var element = this.dsTC_Temp.getColumn(i, "element");
+			var nre_element;
+			
+			if ( element && element.indexOf(":input") >= 0 )
+			{
+				nre_element = element.substring(0, element.indexOf(":input"));
+			}
+			else if ( element && element.indexOf(":textarea") >= 0 )
+			{
+				nre_element = element.substring(0, element.indexOf(":textarea"));
+			}
+			else
+			{
+				nre_element = element;
+			}
+			
+			this.dsTC_Temp.setColumn(i, "element", nre_element);
+		}
+		else
+		{
+			this.dsTC_Temp.setColumn(i, "type", "id");
+		}
+
+		var idx = this.dsTC.addRow();
+		this.dsTC.copyRow(idx, this.dsTC_Temp, i);
+	}
+	
+	trace(this.dsTC.saveXML());
+	
+	this.dsTC.enableevent = true;
+	
+};
+
+this.divBrowser_chksBrowser_onitemchanged = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
+{
+	var totalItemCnt = obj.getCount();
+	
+	if ( this.cbsClick_idx == 0 )
+	{
+		obj.setSelectRange(1, totalItemCnt-1, obj.getSelect(0));
+	}
+	else 
+	{
+		var curSelCnt = obj.getSelectedCount();
+		var fullCnt = obj.getSelect(0) ? totalItemCnt : totalItemCnt-1; // all 이 선택된 상태면 전체 체크박스 개수(itemCnt)로 설정하고, 아니면 all을 제외한 나머지 개수(itemCnt - 1)
+		
+		if (curSelCnt == fullCnt)
+		{
+			obj.setSelectRange(0, totalItemCnt-1, true);
+		}
+		else
+		{
+			obj.setSelect(0, false);
+		}
+	}
+};
+
+this.divBrowser_chksBrowser_onitemclick = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemClickEventInfo)
+{
+	this.cbsClick_idx = e.index;
+};
+
+this.divBrowser_btnCancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.divBrowser.visible = false;
+};
+
+this.divBrowser_btnCopy_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 원본데이터에 복사할 데이터가 있는지 체크한다.
+	if ( this.dsTC.rowcount == 0 )
+	{
+		alert("복사할 데이터가 없습니다.");
+		return;
+	}
+	
+	// checkboxset에서 선택한 아이템을 체크한다.
+	var retValue = this.divBrowser.form.chksBrowser.value;
+
+	if ( retValue )
+	{
+		var arr;
+		arr = retValue.split(",");
+		
+		if ( arr.length > 0 )
+		{
+			for ( var i = 0; i < arr.length; i++ )
+			{
+				if ( arr[i] == "1" )
+				{
+					continue; // All은 원본이므로 복사하지 않는다.
+				}
+				
+				this.copyDatasetBrowserType(arr[i]);
+			}
+		}
+	}
+	
+	this.divBrowser.visible = false;
+};
+
+
+// 아이템 선택에 맞게 filter 하여 grid에 내용을 보여준다.
+this.rdoBrowser_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	if ( e.postvalue != 1 )
+	{
+		this.dsTC.filter("browser == '" + e.postvalue + "'"); 
+	}
+	else
+	{
+		this.dsTC.filter(""); 
+	}
+};
+
+// 창분리 버튼
+// 현재 내용 글로벌에 저장
+this.btnWindow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workForm");
+	var bOpen = objApp.getVariable("bOpen");
+	
+	if ( bOpen == "FALSE" )	// 창 분리 시도
+	{
+		// 현재 작업된 내용을 gdsTC에 저장한 후 창분리 한다.
+		this.btnSave_onclick();
+		
+		// 창분리
+		var bSucc = nexacro.open("TC_Window", "Base::frmTCList.xfdl",  this.getOwnerFrame(), {isOpen: true, nodeId:this.cmbList.text}, "showtitlebar=true showstatusbar=false", 0, 0);
+		
+		// 부모창의 divList 제거
+		form.divTop_btnList_onclick();
+		form.divTop.form.btnList.visible = false;
+		
+		objApp.setVariable("bOpen", "TRUE");	// 오픈 flag 설정
+	}
+	else // 창분리 된 상태에서 복귀시도
+	{
+		objApp.setVariable("bOpen", "FALSE");	// 오픈 flag 설정
+		
+		// 현재 작업된 내용을 gdsTC에 저장한 후 창분리 한다.
+		this.btnSave_onclick();
+		form.divTop_btnList_onclick();
+		this.close();
+	}
+	
+// 	if ( obj.text == "창분리" )
+// 	{
+// 		var objApp = nexacro.getApplication();
+// 		var form = objApp.getVariable("workForm");
+// 		
+// 		현재 작업된 내용을 gdsTC에 저장한 후 창분리 한다.
+// 		this.btnSave_onclick();
+// 
+// 		form.divTop_btnList_onclick();
+// 		
+// 		bSucc = nexacro.open("TC_Window", "Base::frmTCList.xfdl",  this.getOwnerFrame(), {isOpen: true, nodeId:this.cmbList.text}, "showtitlebar=true showstatusbar=false", 0, 0);
+// 		this.parent.parent.divTop_btnList_onclick();
+// 		form.divTop.form.btnList.visible = false;
+// 		
+// 		objApp.setVariable("bOpen", true);	// 오픈 flag 설정
+// 	}
+// 	else
+// 	{
+// 		현재 작성 TC를 gdsTC에 저장한다.
+// 		this.btnSave_onclick();
+// 		
+// 		this.parent.opener.divTop_btnList_onclick();
+// 		
+// 		this.close();
+// 	}
+// 	
+};
+
+
+this.btnRefresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workForm");
+	
+	this.dsDomList.clearData();
+	this.dsDomList.copyData(form.dsDomList);
+};
+
+this.setHighlightNode = function(nodeId)
+{
+	this.cmbList.text = nodeId;
+}
+
+
+this.frmTCList_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	var form = objApp.getVariable("workForm");
+	var bOpen = objApp.getVariable("bOpen");
+	
+	if ( bOpen == "TRUE" )	// 부모창
+	{
+		objApp.setVariable("bOpen", "FALSE");	// 오픈 flag 설정
+		
+		// 현재 작업된 내용을 gdsTC에 저장한 후 창분리 한다.
+		this.btnSave_onclick();
+		form.divTop.form.btnList.visible = true;
+		//form.divTop_btnList_onclick();
+	}
+};
+
+this.divExport_onkillfocus = function(obj:nexacro.Div,e:nexacro.KillFocusEventInfo)
+{
+	this.btnExport_onclick();
+};
+
+this.txtDescription_oninput = function(obj:nexacro.TextArea,e:nexacro.InputEventInfo)
+{
+	trace(e);
+};
+
+]]></Script>
+  </Form>
+</FDL>
