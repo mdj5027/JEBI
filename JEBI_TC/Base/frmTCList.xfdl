@@ -574,6 +574,7 @@ this.btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	var idx = this.dsTC.addRow();
 	
 	this.dsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
+	this.dsTC.setColumn(idx, "element", this.cmbList.text); // 현재 선택된 node id를 element에 바로 세팅되게 한다.
 };
 
 this.btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
