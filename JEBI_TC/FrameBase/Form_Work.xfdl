@@ -62,6 +62,7 @@ this.Form_Work_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 	objApp.setVariable("workForm", this);	// 현재 화면을 global에 저장 
 };
 
+// 구분 바 Drag 기능은 우선 삭제함.
 //구분 바 drag 시작
 this.btnBar_ondrag = function(obj:nexacro.Button,e:nexacro.DragEventInfo)
 {
