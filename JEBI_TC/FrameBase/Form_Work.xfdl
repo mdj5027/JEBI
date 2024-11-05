@@ -231,7 +231,7 @@ this.divRight_wbTarget_onloadcompleted = function(obj:nexacro.WebView,e:nexacro.
 			isRegistMouseEvent = true;
 			
 			iframeDocument.addEventListener('mousedown', function(event) {
-				if (event.which === 2) // 마우스 휠 버튼
+				if (event.which === 2 || (event.which === 1 && event.altKey == true)) // 마우스 휠 버튼
 				{
 					// 현재 위치한 dom를 고정한다.
 					pThis.isFix = pThis.isFix ? false: true;
