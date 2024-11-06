@@ -162,7 +162,7 @@
         <Div id="divExport" taborder="15" top="btnExport:10" height="580" border="1px solid silver" boxShadow="5px 5px 10px silver" background="white" url="Base::frmExport.xfdl" right="20" visible="false" width="590" text="" formscrolltype="both" formscrollbartype="default default" onkillfocus="divExport_onkillfocus"/>
         <TextArea id="txtDescription" taborder="17" left="241" top="572" width="390" height="116" visible="false" onkillfocus="txtDescription_onkillfocus" hotkey="ESCAPE" oninput="txtDescription_oninput"/>
         <Div id="divDrag" taborder="20" left="65" top="453" width="201" height="59" border="1px solid black" background="white" borderRadius="10px 10px" boxShadow="5px 5px 10px silver" font="normal bold 10pt/normal &quot;Arial&quot;" visible="false" dragText="" ondrop="divDrag_ondrop"/>
-        <Div id="divImport" taborder="21" text="Div00" top="btnImport:10" width="450" height="210" background="white" border="1px solid silver" boxShadow="5px 5px 10px silver" url="Base::frmImport.xfdl" right="btnImport:0" visible="false"/>
+        <Div id="divImport" taborder="21" text="Div00" top="btnImport:10" width="480" height="520" background="white" border="1px solid silver" boxShadow="5px 5px 10px silver" url="Base::frmImport.xfdl" right="btnImport:0" visible="false"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -838,6 +838,7 @@ this.btnImport_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 	if ( this.divImport.visible == false )
 	{
+		this.divImport.form.dsSheet.clearData();
 		this.divImport.visible = true;
 	}
 	else

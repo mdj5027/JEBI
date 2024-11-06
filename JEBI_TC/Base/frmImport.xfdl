@@ -1,10 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="frmImport" width="460" height="220" titletext="New Form">
+  <Form id="frmImport" width="460" height="500" titletext="New Form" onload="frmImport_onload">
     <Layouts>
-      <Layout height="220" width="460">
+      <Layout height="500" width="460">
         <Button id="btnDialog" taborder="0" text="JEBI 엑셀파일 가져오기" left="10" top="20" width="186" height="38" onclick="btnDialog_onclick"/>
         <Div id="divDrop" taborder="1" text="여기에 파일 넣기 (엑셀 파일 1개만 가능함)" left="10" top="74" height="116" background="white" border="2px dashed silver" color="silver" right="10" ondrop="divDrop_ondrop"/>
+        <Static id="stExplain" taborder="2" text="Import 할 Sheet를 아래에서 선택 후 버튼을 눌러주세요." left="10" top="205" width="345" height="55" font="normal 700 10pt/normal &quot;Arial&quot;" wordWrap="char" wordSpacing="0px"/>
+        <Button id="btnImportSheet" taborder="3" text="Data 변환" left="365" top="210" height="41" onclick="btnImportSheet_onclick" right="10"/>
+        <Grid id="grdSheet" taborder="4" left="15" top="261" height="229" binddataset="dsSheet" autofittype="col" autoenter="select" right="10">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="47"/>
+                <Column size="234"/>
+                <Column size="152"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="36"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="선택"/>
+                <Cell col="1" text="Sheet 명"/>
+                <Cell col="2" text="대상 브라우저"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:check" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:sheetKey"/>
+                <Cell col="2" combodataset="dsBrowser" combocodecol="browserName" combodatacol="browserName" edittype="combo" displaytype="combocontrol" text="bind:browser"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
       </Layout>
     </Layouts>
     <Objects>
@@ -57,8 +84,57 @@
           <Column id="expectUI" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="dsSheet">
+        <ColumnInfo>
+          <Column id="check" type="INT" size="256"/>
+          <Column id="sheetKey" type="STRING" size="256"/>
+          <Column id="sheetData" type="STRING" size="256"/>
+          <Column id="browser" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsBrowser">
+        <ColumnInfo>
+          <Column id="browserCode" type="STRING" size="256"/>
+          <Column id="browserName" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="browserCode">1</Col>
+            <Col id="browserName">ALL</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">2</Col>
+            <Col id="browserName">Chrome</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">3</Col>
+            <Col id="browserName">Edge</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">4</Col>
+            <Col id="browserName">Safari</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">5</Col>
+            <Col id="browserName">Opera</Col>
+          </Row>
+          <Row>
+            <Col id="browserCode">6</Col>
+            <Col id="browserName">Windows_NRE</Col>
+          </Row>
+        </Rows>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[this.sheetData;
+
+this.frmImport_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var objApp = nexacro.getApplication();
+	
+	this.dsBrowser.clearData();
+	this.dsBrowser.copyData(objApp.gdsBrowserType);
+};
+
 this.btnDialog_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.FileDialog.open( "FileOpen", FileDialog.LOAD );
@@ -73,6 +149,8 @@ this.FileDialog_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEv
 this.fnReadFile = function(filelist)
 {
 	var pThis = this;
+		
+	this.divDrop.text = "excel 파일 읽는 중 ...";
 	
 	if(filelist)
 	{
@@ -100,7 +178,13 @@ this.fnReadFile = function(filelist)
 					};
 				});
 				
-				reader.targetForm.setXmltoDs(sheetObjects);
+				
+				//reader.targetForm.setXmltoDs(sheetObjects);
+				pThis.sheetData = sheetObjects;
+				reader.targetForm.setSheetInfo(sheetObjects);
+				
+				
+				pThis.divDrop.text = "여기에 파일 넣기 (엑셀 파일 1개만 가능함)";
 				
 				function jsonToXml(json, sheetName) {
 					let xml = `<${sheetName}>\n`;
@@ -124,34 +208,81 @@ this.fnReadFile = function(filelist)
 	}
 }
 
-this.setXmltoDs = function(sheetObjects)
+this.setSheetInfo = function(sheetObjects)
 {
 	var objApp = nexacro.getApplication();
 	var keys = Object.keys(sheetObjects);
-	var len = keys.length;
-	var nIdx, i, j, k;
+	var i, idx;
 	
-	this.dsTC.clearData();
+	this.dsSheet.clearData();
 		
 	for (i = 0; i < keys.length; i++) 
 	{
 		var sheetKey = keys[i];
 		var jsonData = sheetObjects[sheetKey].jsonData;
 		
-		for (j = 0; j < jsonData.length; j++) 
+		idx = this.dsSheet.addRow();
+		this.dsSheet.setColumn(idx, "sheetKey", sheetKey);
+		//this.dsSheet.setColumn(idx, "sheetData", jsonData);
+	}
+}
+
+this.setXmltoDs = function(sheetObjects)
+{
+	var objApp = nexacro.getApplication();
+	var keys = Object.keys(sheetObjects);
+	var len = keys.length;
+	var nIdx, i, j, k, m;
+	
+	this.dsTC.clearData();
+
+	len = this.dsSheet.getCaseCount("check == 1");
+	
+	if ( len == 0 )
+	{
+		alert("선택한 sheet가 없습니다. 확인해주세요");
+		return;
+	}
+	
+	for ( i = 0; i < this.dsSheet.rowcount; i++ )
+	{
+		var chk = this.dsSheet.getColumn(i, "check");
+		
+		if( chk == 1 )
 		{
-			var columnIds = Object.keys(jsonData[j]);
-			nIdx = this.dsTC.addRow();
+			var browser = this.dsSheet.getColumn(i, "browser");
+			var sheetKey = keys[i];	// 엑셀 sheet 명
+			var jsonData = sheetObjects[sheetKey].jsonData; // 엑셀 sheet의 org data
 			
-			for (k = 0; k < columnIds.length; k++) 
+			if ( browser === undefined )
 			{
-				var columnId = columnIds[k];
-				var columnValue = jsonData[j][columnId];
+				browser = 1;
+			}
+					
+			for (j = 0; j < jsonData.length; j++) 
+			{
+				var columnIds = Object.keys(jsonData[j]); // 엑셀 sheet의 column data
+				
+				nIdx = this.dsTC.addRow();
 			
-				this.dsTC.setColumn(nIdx, columnId, columnValue);
+				for (k = 0; k < columnIds.length; k++) 
+				{
+					var columnId = columnIds[k];
+					var columnValue = jsonData[j][columnId];
+				
+					if ( columnId == "browser" )
+					{
+						this.dsTC.setColumn(nIdx, columnId, browser);
+					}
+					else
+					{
+						this.dsTC.setColumn(nIdx, columnId, columnValue);
+					}
+				}
 			}
 		}
-	}	
+	}
+	
 	
 	// TC를 작성할때는 browser == all 값이 있어야 한다.
 	// chrome 기준으로 all 을 만든다. chrome 없으면 다른 브라우저로 복사하도록 한다.
@@ -205,6 +336,7 @@ this.convertCode = function(id, value)
 	switch ( id )
 	{
 	case "browser" :
+		value = objApp.getBrowserName(value);
 		nIdx = objApp.gdsBrowserType.findRow("browserName", value);
 		
 		return objApp.gdsBrowserType.getColumn(nIdx, "browserCode");
@@ -236,6 +368,15 @@ this.divDrop_ondrop = function(obj:nexacro.Div,e:nexacro.DragEventInfo)
 		this.fnReadFile(e.filelist);
 	}
 };
+
+this.btnImportSheet_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var i, arr = [];
+
+	this.setXmltoDs(this.sheetData);
+};
+
+
 ]]></Script>
   </Form>
 </FDL>
