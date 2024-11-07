@@ -83,6 +83,7 @@
         <Column id="imeData" type="STRING" size="256"/>
       </ColumnInfo>
       <Rows>
+        <Row/>
         <Row>
           <Col id="imeCode">1</Col>
           <Col id="imeData">KO</Col>
