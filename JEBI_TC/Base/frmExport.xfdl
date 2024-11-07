@@ -125,13 +125,13 @@ this.initExportBrowser = function()
 	var form = objApp.getVariable("workTC");
 	var i, idx, v = [];
 	
-	for ( i = 1; i < objApp.gdsBrowserType.rowcount; i++ )
+	for ( i = 2; i <= objApp.gdsBrowserType.rowcount; i++ )
 	{	
 		idx = form.dsTC.findRow("browser", i);
 		
 		if ( idx > -1 )
 		{
-			v.push(i);
+			v.push(i-1);
 		}
 	}
 	
