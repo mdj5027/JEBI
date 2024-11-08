@@ -14,7 +14,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btnBar" taborder="1" left="400" top="divTop:5" width="6" bottom="4" ondrag="btnBar_ondrag"/>
+        <Button id="btnBar" taborder="1" left="400" top="divTop:5" width="6" bottom="4" ondrag="btnBar_ondrag" ondblclick="btnBar_ondblclick"/>
         <Div id="divLeft" taborder="2" text="Div00" left="0" top="divTop:5" bottom="20" ondrop="divLeft_ondrop" ondragmove="divLeft_ondragmove" right="btnBar:10" border="1px solid black">
           <Layouts>
             <Layout>
@@ -378,6 +378,20 @@ this.hotKey = function(event)
 
 
 
+// split bar 더블 클릭 시 테스트 대상 화면 확대 축소
+// drag는 webview 영역에 마우스가 over 되면 이벤트가 전달이 안되어 동작이 매끄럽지 않게 되어 더블클릭으로 함.
+this.btnBar_ondblclick = function(obj:nexacro.Button,e:nexacro.MouseEventInfo)
+{
+	if ( obj.left == 0 )
+	{
+		obj.setOffsetLeft(400);
+	}
+	else 
+	{	
+		obj.setOffsetLeft(0);
+	}
+	this.resetScroll();
+};
 ]]></Script>
     <Objects>
       <Dataset id="dsUrl">
