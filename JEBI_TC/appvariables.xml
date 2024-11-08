@@ -75,6 +75,10 @@
           <Col id="actionCode">8</Col>
           <Col id="actionData">elementscreenShot</Col>
         </Row>
+        <Row>
+          <Col id="actionCode">9</Col>
+          <Col id="actionData">mouseMove</Col>
+        </Row>
       </Rows>
     </Dataset>
     <Dataset id="gdsImeType">
