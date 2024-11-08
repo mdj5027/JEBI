@@ -150,6 +150,22 @@
         </Row>
       </Rows>
     </Dataset>
+    <Dataset id="gdsExeption">
+      <ColumnInfo>
+        <Column id="nre_exception" type="STRING" size="256"/>
+      </ColumnInfo>
+      <Rows>
+        <Row>
+          <Col id="nre_exception">:input</Col>
+        </Row>
+        <Row>
+          <Col id="nre_exception">:textarea</Col>
+        </Row>
+        <Row>
+          <Col id="nre_exception">:icontext</Col>
+        </Row>
+      </Rows>
+    </Dataset>
   </Datasets>
   <Variables>
     <Variable id="workForm" initval=""/>

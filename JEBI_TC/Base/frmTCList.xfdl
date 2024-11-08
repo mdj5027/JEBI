@@ -893,18 +893,21 @@ this.copyDatasetBrowserType = function(strBroswerType)
 			var element = this.dsTC_Temp.getColumn(i, "element");
 			var nre_element;
 			
-			if ( element && element.indexOf(":input") >= 0 )
-			{
-				nre_element = element.substring(0, element.indexOf(":input"));
-			}
-			else if ( element && element.indexOf(":textarea") >= 0 )
-			{
-				nre_element = element.substring(0, element.indexOf(":textarea"));
-			}
-			else
-			{
-				nre_element = element;
-			}
+			
+// 			if ( element && element.indexOf(":input") >= 0 )
+// 			{
+// 				nre_element = element.substring(0, element.indexOf(":input"));
+// 			}
+// 			else if ( element && element.indexOf(":textarea") >= 0 )
+// 			{
+// 				nre_element = element.substring(0, element.indexOf(":textarea"));
+// 			}
+// 			else
+// 			{
+// 				nre_element = element;
+// 			}
+			
+			nre_element = this.nreExeption(element);
 			
 			this.dsTC_Temp.setColumn(i, "element", nre_element);
 		}
@@ -922,6 +925,25 @@ this.copyDatasetBrowserType = function(strBroswerType)
 	this.dsTC.enableevent = true;
 	
 };
+
+// nre id에 필요없는 값을 제거한다.
+this.nreExeption = function(element)
+{
+	var objApp = nexacro.getApplication();
+	var idx, len = objApp.gdsExeption.rowcount;
+	
+	for ( i = 0; i < len; i++ )
+	{
+		var v = objApp.gdsExeption.getColumn(i, "nre_exception");
+	
+		if ( (idx = element.indexOf(v)) >= 0 )
+		{
+			return element.substring(0, idx);
+		}
+	}
+	
+	return element;
+}
 
 this.divBrowser_chksBrowser_onitemchanged = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
 {
