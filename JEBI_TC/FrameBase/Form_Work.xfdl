@@ -54,6 +54,15 @@
     <Script type="xscript5.1"><![CDATA[this.observer;	// dom 변화를 실시간 감지하기 위한 객체 변수
 this.previousHighlightedElement; // 이전 element 저장 변수 highlight style 값을 제거하기 위함.
 
+/////////////////////
+// 테스트 용 
+///////////////////
+var formobject = null;
+var firstobject = null;
+var firstflag = 0;
+var secondobject = null;
+//////////////////////////
+
 // 화면이 시작되면 global 변수에 현재 form 객체를 담는다.
 // evn에서 화면 함수를 호출하게 하기 위함.
 this.Form_Work_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -250,6 +259,7 @@ this.divRight_wbTarget_onloadcompleted = function(obj:nexacro.WebView,e:nexacro.
 						pThis.setHighlight(element.id);	// mouse가 위치한 element highlight 효과를 줌.
 					}
 				}
+				formobject = element.id;
 			});
 
 			iframeDocument.addEventListener('keydown', function(event) {
@@ -259,6 +269,52 @@ this.divRight_wbTarget_onloadcompleted = function(obj:nexacro.WebView,e:nexacro.
 					pThis.hotKey(event);
 					
 					}, 10);
+				//trace(e.keycode);
+				// 처음 엘리먼트 고정으로 동작. 1회성
+				if (event.ctrlKey == true && event.keyCode == 17 && firstflag == 0 && firstobject == null)
+				{
+					firstobject = formobject;
+				}
+				//trace("keydown 오브젝트=" +formobject + " || " + firstobject + " || " + secondobject);
+				if (event.ctrlKey == true && event.keyCode == 17 && firstflag == 0)
+				{
+					trace("첫번째 오브젝트=" + formobject);
+					firstflag = 1;
+				}
+			});
+			
+			iframeDocument.addEventListener('keyup', function(event) {
+				//trace(e.keycode);
+				// 지속적으로 엘리먼트를 받음. 다회성.
+				secondobject = formobject;
+				//trace("keyup 오브젝트=" +formobject + " || " + firstobject + " || " + secondobject);
+				if (event.ctrlKey == false && event.keyCode == 17 && firstflag == 1 && secondobject != firstobject)
+				{
+					trace("두번째 오브젝트=" + secondobject);
+					trace("이 로직을 타면 드래그 드랍");
+					
+					pThis.initvar();
+				}
+				else if (event.ctrlKey == false && event.keyCode == 17 && firstflag == 1 && secondobject == firstobject)
+				{
+					trace("이 로직을 타면 클릭");
+					
+					var objApp = nexacro.getApplication();
+					
+					// mouseMove
+					var idx = objApp.gdsTC.addRow();
+					objApp.gdsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
+					objApp.gdsTC.setColumn(idx, "action", "9"); // 모든 값 all browser로 세팅한다.
+					objApp.gdsTC.setColumn(idx, "element", secondobject); // 현재 선택된 node id를 element에 바로 세팅되게 한다.  
+					
+					// click
+					idx = objApp.gdsTC.addRow();
+					objApp.gdsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
+					objApp.gdsTC.setColumn(idx, "action", "0"); // 모든 값 all browser로 세팅한다.
+					objApp.gdsTC.setColumn(idx, "element", secondobject); // 현재 선택된 node id를 element에 바로 세팅되게 한다.  
+					
+					pThis.initvar();
+				}
 			});
 		}
 	};	// const callback end
@@ -375,8 +431,15 @@ this.hotKey = function(event)
 //------------------------------------------------------
 // 공통 로직 처리 끝
 //------------------------------------------------------
-
-
+this.initvar = function() 
+{
+	// 초기화
+	firstflag = 0;
+	//form 오브젝트는 지속적으로 받아야해서 null 작업이 필요 없을듯.
+	//formobject = null;
+	firstobject = null;
+	secondobject = null;
+};
 
 // split bar 더블 클릭 시 테스트 대상 화면 확대 축소
 // drag는 webview 영역에 마우스가 over 되면 이벤트가 전달이 안되어 동작이 매끄럽지 않게 되어 더블클릭으로 함.
