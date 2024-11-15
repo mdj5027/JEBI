@@ -415,7 +415,7 @@ this.fn_exportExcel = function (ds, filaName)
 		this.ExcelExportObject00.addExportItem(nexacro.ExportItemTypes.GRID, grid, strSheetName+"!A1");
 	}
 	
-	this.ExcelExportObject00.exportData();
+	this.ExcelExportObject00.exportDataEx();	// 엑셀 서식이 text로 고정시키기 위함. jebi에서 숫자가 0. 이 붙게 되어 문제가 발생함.
 	
 	this.dsTC.filter("browser == '" + this.rdoBrowser.value + "'");
 	this.dsTC.enableevent = true;

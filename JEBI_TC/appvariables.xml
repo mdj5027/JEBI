@@ -39,6 +39,7 @@
         <Column id="actionData" type="STRING" size="256"/>
       </ColumnInfo>
       <Rows>
+        <Row/>
         <Row>
           <Col id="actionCode">0</Col>
           <Col id="actionData">click</Col>
@@ -78,6 +79,10 @@
         <Row>
           <Col id="actionCode">9</Col>
           <Col id="actionData">mouseMove</Col>
+        </Row>
+        <Row>
+          <Col id="actionCode">10</Col>
+          <Col id="actionData">keyPress</Col>
         </Row>
       </Rows>
     </Dataset>
@@ -132,6 +137,7 @@
         <Column id="compareData" type="STRING" size="256"/>
       </ColumnInfo>
       <Rows>
+        <Row/>
         <Row>
           <Col id="compareData">textValue</Col>
           <Col id="compareCode">1</Col>
@@ -151,6 +157,10 @@
         <Row>
           <Col id="compareCode">5</Col>
           <Col id="compareData">position</Col>
+        </Row>
+        <Row>
+          <Col id="compareData">textareaValue</Col>
+          <Col id="compareCode">6</Col>
         </Row>
       </Rows>
     </Dataset>
