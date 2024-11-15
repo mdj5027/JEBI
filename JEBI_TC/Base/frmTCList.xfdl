@@ -11,6 +11,7 @@
                 <Column size="39"/>
                 <Column size="273"/>
                 <Column size="126"/>
+                <Column size="96"/>
                 <Column size="120"/>
                 <Column size="318"/>
                 <Column size="102"/>
@@ -34,38 +35,40 @@
                 <Cell col="1" text="testscript_no"/>
                 <Cell col="2" text="description"/>
                 <Cell col="3" text="browser"/>
-                <Cell col="4" text="action"/>
-                <Cell col="5" text="element"/>
-                <Cell col="6" text="dictionaryKey"/>
-                <Cell col="7" text="count"/>
-                <Cell col="8" text="time"/>
-                <Cell col="9" text="input"/>
-                <Cell col="10" text="zoom"/>
-                <Cell col="11" text="ime"/>
-                <Cell col="12" text="key"/>
-                <Cell col="13" text="compareType"/>
-                <Cell col="14" text="resultValue"/>
-                <Cell col="15" text="expectValue"/>
-                <Cell col="16" text="expectUI"/>
+                <Cell col="4" text="type"/>
+                <Cell col="5" text="action"/>
+                <Cell col="6" text="element"/>
+                <Cell col="7" text="dictionaryKey"/>
+                <Cell col="8" text="count"/>
+                <Cell col="9" text="time"/>
+                <Cell col="10" text="input"/>
+                <Cell col="11" text="zoom"/>
+                <Cell col="12" text="ime"/>
+                <Cell col="13" text="key"/>
+                <Cell col="14" text="compareType"/>
+                <Cell col="15" text="resultValue"/>
+                <Cell col="16" text="expectValue"/>
+                <Cell col="17" text="expectUI"/>
               </Band>
               <Band id="body">
                 <Cell edittype="checkbox" text="bind:check" displaytype="checkboxcontrol"/>
                 <Cell col="1" text="bind:testscript_no" expr="currow+1" textAlign="center"/>
                 <Cell col="2" text="bind:description" displaytype="normal" edittype="none"/>
                 <Cell col="3" text="bind:browser" displaytype="combocontrol" edittype="combo" combodataset="dsBrowser" combocodecol="browserCode" combodatacol="browserName"/>
-                <Cell col="4" text="bind:action" displaytype="combocontrol" edittype="combo" combodataset="dsAction" combocodecol="actionCode" combodatacol="actionData"/>
-                <Cell col="5" text="bind:element" displaytype="editcontrol" edittype="text" tooltiptext="bind:element"/>
-                <Cell col="6" text="bind:dictionaryKey" edittype="text" displaytype="normal"/>
-                <Cell col="7" text="bind:count" displaytype="number" edittype="text"/>
-                <Cell col="8" text="bind:time" displaytype="number" edittype="text"/>
-                <Cell col="9" text="bind:input" displaytype="normal" edittype="none"/>
-                <Cell col="10" text="bind:zoom" edittype="text" displaytype="number"/>
-                <Cell col="11" text="bind:ime" displaytype="combocontrol" edittype="combo" combodataset="dsIme" combocodecol="imeCode" combodatacol="imeData"/>
-                <Cell col="12" text="bind:key" displaytype="text" edittype="text"/>
-                <Cell col="13" text="bind:compareType" edittype="combo" displaytype="combocontrol" combodataset="dsCompare" combocodecol="compareCode" combodatacol="compareData"/>
-                <Cell col="14" text="bind:resultValue" displaytype="normal" edittype="none"/>
-                <Cell col="15" text="bind:expectValue" displaytype="normal" edittype="none"/>
-                <Cell col="16" text="bind:expectUI" edittype="text"/>
+                <Cell col="4" displaytype="editcontrol" edittype="text" text="bind:type"/>
+                <Cell col="5" text="bind:action" displaytype="combocontrol" edittype="combo" combodataset="dsAction" combocodecol="actionCode" combodatacol="actionData"/>
+                <Cell col="6" text="bind:element" displaytype="editcontrol" edittype="text" tooltiptext="bind:element"/>
+                <Cell col="7" text="bind:dictionaryKey" edittype="text" displaytype="normal"/>
+                <Cell col="8" text="bind:count" displaytype="number" edittype="text"/>
+                <Cell col="9" text="bind:time" displaytype="number" edittype="text"/>
+                <Cell col="10" text="bind:input" displaytype="normal" edittype="none"/>
+                <Cell col="11" text="bind:zoom" edittype="text" displaytype="number"/>
+                <Cell col="12" text="bind:ime" displaytype="combocontrol" edittype="combo" combodataset="dsIme" combocodecol="imeCode" combodatacol="imeData"/>
+                <Cell col="13" text="bind:key" displaytype="text" edittype="text"/>
+                <Cell col="14" text="bind:compareType" edittype="combo" displaytype="combocontrol" combodataset="dsCompare" combocodecol="compareCode" combodatacol="compareData"/>
+                <Cell col="15" text="bind:resultValue" displaytype="normal" edittype="none"/>
+                <Cell col="16" text="bind:expectValue" displaytype="normal" edittype="none"/>
+                <Cell col="17" text="bind:expectUI" edittype="text"/>
               </Band>
             </Format>
             <Format id="exportFormat">
@@ -575,6 +578,8 @@ this.btnAdd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 	this.dsTC.setColumn(idx, "browser", "1"); // 모든 값 all browser로 세팅한다.
 	this.dsTC.setColumn(idx, "element", this.cmbList.text); // 현재 선택된 node id를 element에 바로 세팅되게 한다.  
+	this.dsTC.setColumn(idx, "type", "id"); // type 값을 무조건 'id'로 세팅하게 한다. 
+	
 };
 
 this.btnDel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -637,7 +642,8 @@ this.grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInf
 	}
 	else
 	{
-		if ( e.cell == 2 || e.cell == 9 || e.cell == 14 || e.cell == 15 )
+		// description, input, resultValue, expectValue
+		if ( e.cell == 2 || e.cell == 10 || e.cell == 15 || e.cell == 16 )
 		{
 			this.grdCellIdx = e.cell;
 			
@@ -668,15 +674,15 @@ this.grdList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInf
 			{
 				text = this.dsTC.getColumn(this.grdList.currentrow, "description");
 			}
-			else if ( e.cell == 9 )
+			else if ( e.cell == 10 )
 			{
 				text = this.dsTC.getColumn(this.grdList.currentrow, "input");
 			}
-			else if ( e.cell == 14 )
+			else if ( e.cell == 15 )
 			{
 				text = this.dsTC.getColumn(this.grdList.currentrow, "resultValue");
 			}
-			else if ( e.cell == 15 )
+			else if ( e.cell == 16 )
 			{
 				text = this.dsTC.getColumn(this.grdList.currentrow, "expectValue");
 			}
@@ -884,11 +890,15 @@ this.copyDatasetBrowserType = function(strBroswerType)
 	var len = this.dsTC_Temp.rowcount;
 	for ( var i = 0; i < len; i++ )
 	{
+		var type = this.dsTC_Temp.getColumn(i, "type");
 		this.dsTC_Temp.setColumn(i, "browser", strBroswerType);
-		
+				
 		if ( strBroswerType == "6" ) 
 		{
-			this.dsTC_Temp.setColumn(i, "type", "accessibilityid");
+			if ( type == "id" )	// type이 "id" 값이 있는 경우에는 NRE 전용인 "accessibilityid"로 변경한다. 그외는 그대로 둔다.
+			{
+				this.dsTC_Temp.setColumn(i, "type", "accessibilityid");
+			}
 			
 			var element = this.dsTC_Temp.getColumn(i, "element");
 			var nre_element;
@@ -913,7 +923,8 @@ this.copyDatasetBrowserType = function(strBroswerType)
 		}
 		else
 		{
-			this.dsTC_Temp.setColumn(i, "type", "id");
+			// type이 "id" 값을 row 생성시 넣었기 때문에 id가 기본으로 들어가 있음. 로직 삭제
+//			this.dsTC_Temp.setColumn(i, "type", "id");	
 		}
 
 		var idx = this.dsTC.addRow();
