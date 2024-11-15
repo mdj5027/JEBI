@@ -487,9 +487,11 @@ this.grdList_ondrag = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
 this.grdList_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
 {
 	// row를 바꾼다.
-	this.dsTC_Temp.assign(this.dsTC);
-	this.dsTC.copyRow(e.userdata, this.dsTC_Temp, e.row);
-	this.dsTC.copyRow(e.row, this.dsTC_Temp, e.userdata);
+// 	this.dsTC_Temp.assign(this.dsTC);
+// 	this.dsTC.copyRow(e.userdata, this.dsTC_Temp, e.row);
+// 	this.dsTC.copyRow(e.row, this.dsTC_Temp, e.userdata);
+	
+	this.dsTC.moveRow(e.userdata, e.row); 
 	
 	this.divDrag.visible = false;
 	this.divDrag.dragText = "";
