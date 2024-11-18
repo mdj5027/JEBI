@@ -703,15 +703,15 @@ this.txtDescription_onkillfocus = function(obj:nexacro.TextArea,e:nexacro.KillFo
 	{
 		this.dsTC.setColumn(this.grdList.currentrow, "description", obj.value);
 	}
-	else if ( this.grdCellIdx == 9 )
+	else if ( this.grdCellIdx == 10 )
 	{
 		this.dsTC.setColumn(this.grdList.currentrow, "input", obj.value);
 	}
-	else if ( this.grdCellIdx == 14 )
+	else if ( this.grdCellIdx == 15 )
 	{
 		this.dsTC.setColumn(this.grdList.currentrow, "resultValue", obj.value);
 	}
-	else if ( this.grdCellIdx == 15 )
+	else if ( this.grdCellIdx == 16 )
 	{
 		this.dsTC.setColumn(this.grdList.currentrow, "expectValue", obj.value);
 	}
