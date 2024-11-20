@@ -82,7 +82,7 @@
         </Row>
         <Row>
           <Col id="actionCode">10</Col>
-          <Col id="actionData">keyPress</Col>
+          <Col id="actionData">keypress</Col>
         </Row>
       </Rows>
     </Dataset>
